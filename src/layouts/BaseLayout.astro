@@ -23,10 +23,22 @@ const pageTitle = title === 'Research Lab' ? title : `${title} | Research Lab`;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{pageTitle}</title>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script is:inline>
       if (window.netlifyIdentity) {
+        const hash = window.location.hash || '';
+        const hasInviteToken = hash.includes('invite_token=');
+        const hasRecoveryToken = hash.includes('recovery_token=');
+
         window.netlifyIdentity.on('init', (user) => {
+          if (!user && hasInviteToken) {
+            window.netlifyIdentity.open('signup');
+          }
+
+          if (!user && hasRecoveryToken) {
+            window.netlifyIdentity.open('recovery');
+          }
+
           if (!user) {
             window.netlifyIdentity.on('login', () => {
               document.location.href = '/admin/';
