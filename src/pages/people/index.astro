@@ -13,12 +13,6 @@ const people = await Promise.all(
 
 const peopleGroups = [
   {
-    id: 'principal-investigator',
-    title: 'Principal Investigator',
-    description: '연구실을 이끄는 책임 연구자입니다.',
-    items: people.filter((person) => person.data.category === 'principal-investigator'),
-  },
-  {
     id: 'researcher',
     title: 'Researcher',
     description: '현재 연구 프로젝트를 수행하는 연구원과 학생입니다.',

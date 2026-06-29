@@ -1,0 +1,155 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+
+const entries = await getCollection('people');
+const principalInvestigators = await Promise.all(
+  entries
+    .filter((person) => person.data.category === 'principal-investigator')
+    .sort((a, b) => a.data.order - b.data.order)
+    .map(async (person) => ({ ...person, rendered: await person.render() }))
+);
+---
+
+<BaseLayout title="Principal Investigator" description="Principal investigator profile">
+  <PageHeader
+    eyebrow="People"
+    title="Principal Investigator"
+    description="연구실 책임 연구자 소개 페이지입니다."
+  />
+  <section class="section">
+    <div class="container pi-list">
+      {
+        principalInvestigators.length > 0 ? (
+          principalInvestigators.map((person) => {
+            const Content = person.rendered.Content;
+            return (
+              <article class="pi-profile">
+                <div class="pi-photo-wrap">
+                  <img src={person.data.photo} alt={`${person.data.name} profile`} />
+                </div>
+                <div class="pi-copy">
+                  <p class="eyebrow">{person.data.role}</p>
+                  <h2>{person.data.name}</h2>
+                  {person.data.group && <p class="group">{person.data.group}</p>}
+                  <div class="pi-links">
+                    {person.data.email && <a href={`mailto:${person.data.email}`}>{person.data.email}</a>}
+                    {person.data.website && <a href={person.data.website}>Website</a>}
+                  </div>
+                  {
+                    person.data.education.length > 0 && (
+                      <section class="education" aria-label={`${person.data.name} education`}>
+                        <h3>Education</h3>
+                        <ul>
+                          {person.data.education.map((item) => <li>{item}</li>)}
+                        </ul>
+                      </section>
+                    )
+                  }
+                  <div class="prose">
+                    <Content />
+                  </div>
+                </div>
+              </article>
+            );
+          })
+        ) : (
+          <p class="empty-state">No principal investigator profile listed yet.</p>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .pi-list {
+    display: grid;
+    gap: 28px;
+  }
+
+  .pi-profile {
+    align-items: start;
+    display: grid;
+    gap: 42px;
+    grid-template-columns: minmax(260px, 0.45fr) minmax(0, 0.55fr);
+  }
+
+  .pi-photo-wrap {
+    background: var(--soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  .pi-photo-wrap img {
+    aspect-ratio: 4 / 5;
+    border-radius: 6px;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .pi-copy {
+    padding-top: 8px;
+  }
+
+  .pi-copy h2 {
+    font-size: clamp(2.2rem, 5vw, 4rem);
+  }
+
+  .group {
+    color: var(--muted);
+    font-size: 1.12rem;
+    margin: 12px 0 0;
+  }
+
+  .pi-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .pi-links a {
+    color: var(--link);
+    font-weight: 800;
+  }
+
+  .education {
+    border-left: 4px solid var(--accent);
+    margin: 24px 0;
+    padding-left: 18px;
+  }
+
+  .education h3 {
+    font-size: 1.05rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  .education ul {
+    color: var(--muted);
+    display: grid;
+    gap: 6px;
+    margin: 0;
+    padding-left: 1.1rem;
+  }
+
+  .empty-state {
+    border: 1px dashed var(--line);
+    border-radius: 8px;
+    color: var(--muted);
+    margin: 0;
+    padding: 20px;
+  }
+
+  @media (max-width: 820px) {
+    .pi-profile {
+      grid-template-columns: 1fr;
+    }
+
+    .pi-copy {
+      padding-top: 0;
+    }
+  }
+</style>
