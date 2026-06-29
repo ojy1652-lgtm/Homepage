@@ -16,13 +16,23 @@ const publications = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    authors: z.array(z.string()).default([]),
+    authors: z
+      .array(
+        z.union([
+          z.string(),
+          z.object({
+            name: z.string(),
+            labMember: z.boolean().optional().default(false),
+            corresponding: z.boolean().optional().default(false),
+          }),
+        ])
+      )
+      .default([]),
     journal: z.string(),
     year: z.number(),
     volume: z.string().optional(),
     pages: z.string().optional(),
     doi: z.string().optional(),
-    url: z.string().optional(),
     tags: z.array(z.string()).optional().default([]),
     featured: z.boolean().default(false),
     order: z.number().default(10),
