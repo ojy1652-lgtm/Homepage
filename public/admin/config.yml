@@ -34,7 +34,10 @@ collections:
     slug: "{{year}}-{{slug}}"
     extension: md
     format: frontmatter
+    sortable_fields: ["order", "year", "title", "journal"]
+    summary: "{{order}} · {{year}} · {{title}}"
     fields:
+      - { label: Display Order, name: order, widget: number, value_type: int, default: 10, hint: "작은 숫자가 먼저 표시됩니다." }
       - { label: Title, name: title, widget: string }
       - label: Authors
         name: authors
@@ -51,7 +54,6 @@ collections:
         required: false
         field: { label: Tag, name: tag, widget: string }
       - { label: Featured, name: featured, widget: boolean, default: false }
-      - { label: Order, name: order, widget: number, value_type: int, default: 10 }
       - { label: Abstract, name: body, widget: markdown, required: false }
 
   - name: people
@@ -61,7 +63,10 @@ collections:
     slug: "{{slug}}"
     extension: md
     format: frontmatter
+    sortable_fields: ["order", "name", "role", "category"]
+    summary: "{{order}} · {{name}} · {{role}}"
     fields:
+      - { label: Display Order, name: order, widget: number, value_type: int, default: 10, hint: "작은 숫자가 먼저 표시됩니다." }
       - { label: Name, name: name, widget: string }
       - { label: Role, name: role, widget: string, hint: "PI, Professor, PhD Student, MS Student, Alumni 등" }
       - label: Category
@@ -83,7 +88,6 @@ collections:
         required: false
         field: { label: Education Item, name: item, widget: string }
       - { label: Alumni, name: alumni, widget: boolean, default: false }
-      - { label: Order, name: order, widget: number, value_type: int, default: 10 }
       - { label: Bio, name: body, widget: markdown, required: false }
 
   - name: facilities

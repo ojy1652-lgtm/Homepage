@@ -147,7 +147,7 @@ const instanceId = `tabs-${Math.random().toString(36).slice(2)}`;
   .tab-list {
     display: grid;
     gap: 6px;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .tab-button {
@@ -234,7 +234,7 @@ const instanceId = `tabs-${Math.random().toString(36).slice(2)}`;
 
   @media (max-width: 820px) {
     .tab-list {
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .tab-button {
@@ -248,6 +248,12 @@ const instanceId = `tabs-${Math.random().toString(36).slice(2)}`;
 
     .panel-copy {
       align-self: start;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .tab-list {
+      grid-template-columns: 1fr;
     }
   }
 </style>

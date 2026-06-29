@@ -4,7 +4,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageTitle from '@/components/PageTitle.astro';
 
 const papers = (await getCollection('publications')).sort(
-  (a, b) => b.data.year - a.data.year || a.data.order - b.data.order
+  (a, b) => b.data.year - a.data.year || a.data.order - b.data.order || a.data.title.localeCompare(b.data.title)
 );
 const years = [...new Set(papers.map((paper) => paper.data.year))];
 

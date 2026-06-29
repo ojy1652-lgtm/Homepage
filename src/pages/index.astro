@@ -5,7 +5,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 const research = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order).slice(0, 6);
 const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 4);
 const allPublications = (await getCollection('publications')).sort(
-  (a, b) => b.data.year - a.data.year || a.data.order - b.data.order
+  (a, b) => a.data.order - b.data.order || b.data.year - a.data.year || a.data.title.localeCompare(b.data.title)
 );
 const publications = [
   ...allPublications.filter((paper) => paper.data.featured),
@@ -43,8 +43,7 @@ function getCitation(paper: (typeof publications)[number]) {
         state-of-the-art electron microscopy and spectroscopy.
       </p>
       <a class="contact-card" href="/contact/">
-        <span>Contact the Lab</span>
-        <strong>Contact information</strong>
+        <span>CONTACT THE LAB</span>
       </a>
     </div>
   </section>
@@ -111,7 +110,6 @@ function getCitation(paper: (typeof publications)[number]) {
     <div class="container">
       <div class="section-head">
         <h2>Research Topics</h2>
-        <a href="/research/">Explore research</a>
       </div>
       <div class="topic-grid">
         {
@@ -166,8 +164,8 @@ function getCitation(paper: (typeof publications)[number]) {
   }
 
   .hero h1 {
-    font-size: clamp(2.6rem, 6vw, 5.2rem);
-    max-width: 900px;
+    font-size: clamp(2.35rem, 5.2vw, 4.55rem);
+    max-width: 840px;
   }
 
   .hero h1 span {
@@ -187,22 +185,18 @@ function getCitation(paper: (typeof publications)[number]) {
     border: 1px solid rgba(255, 255, 255, 0.7);
     border-radius: 8px;
     color: var(--deep);
-    display: inline-grid;
-    min-width: min(100%, 340px);
-    padding: 16px 22px;
+    display: inline-flex;
+    justify-content: center;
+    min-width: min(100%, 220px);
+    padding: 14px 22px;
     text-align: center;
   }
 
   .contact-card span {
-    color: var(--muted);
+    color: var(--ink);
     font-size: 0.82rem;
     font-weight: 800;
     text-transform: uppercase;
-  }
-
-  .contact-card strong {
-    color: var(--deep);
-    font-size: 1.08rem;
   }
 
   .section-head {
@@ -328,13 +322,13 @@ function getCitation(paper: (typeof publications)[number]) {
     grid-area: 1 / 1;
     height: 100%;
     object-fit: cover;
-    opacity: 0.76;
+    opacity: 0.9;
     transition: transform 220ms ease, opacity 220ms ease;
     width: 100%;
   }
 
   .topic-card::after {
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.82));
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.5));
     content: "";
     grid-area: 1 / 1;
     z-index: 1;
@@ -406,7 +400,7 @@ function getCitation(paper: (typeof publications)[number]) {
 
   @media (max-width: 520px) {
     .hero h1 {
-      font-size: 2.35rem;
+      font-size: 2.1rem;
     }
   }
 </style>
