@@ -52,6 +52,7 @@ const facilities = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
+    section: z.enum(['tem-fib', 'in-situ-holder']).optional().default('tem-fib'),
     category: z.string(),
     image: imageField,
     location: z.string().optional(),

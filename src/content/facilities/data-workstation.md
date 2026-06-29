@@ -1,5 +1,6 @@
 ---
 title: Data Analysis Workstations
+section: in-situ-holder
 category: Computing
 image: /images/uploads/lab-hero.png
 location: Collaboration Space

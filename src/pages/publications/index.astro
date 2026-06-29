@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageTitle from '@/components/PageTitle.astro';
 
 const papers = (await getCollection('publications')).sort(
   (a, b) => b.data.year - a.data.year || a.data.order - b.data.order
@@ -9,6 +10,7 @@ const years = [...new Set(papers.map((paper) => paper.data.year))];
 ---
 
 <BaseLayout title="Publications" description="Publication list">
+  <PageTitle title="Publications" />
   <section class="section">
     <div class="container publication-years">
       {

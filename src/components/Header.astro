@@ -13,7 +13,14 @@ const navItems = [
       { href: '/people/#collaborators', label: 'Collaborators' },
     ],
   },
-  { href: '/facilities/', label: 'Facilities' },
+  {
+    href: '/facilities/',
+    label: 'Facilities',
+    children: [
+      { href: '/facilities/#tem-fib', label: 'TEM & FIB' },
+      { href: '/facilities/#in-situ-holder', label: 'In-situ holder' },
+    ],
+  },
   { href: '/news/', label: 'News' },
 ];
 

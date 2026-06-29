@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageTitle from '@/components/PageTitle.astro';
 import PersonCard from '@/components/PersonCard.astro';
 
 const entries = await getCollection('people');
@@ -33,6 +34,7 @@ const peopleGroups = [
 ---
 
 <BaseLayout title="People" description="Research lab members">
+  <PageTitle title="People" />
   <section class="section">
     <div class="container people-sections">
       {

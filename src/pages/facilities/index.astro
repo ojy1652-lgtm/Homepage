@@ -1,50 +1,117 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageTitle from '@/components/PageTitle.astro';
 
 const entries = await getCollection('facilities');
 const facilities = await Promise.all(
   entries.sort((a, b) => a.data.order - b.data.order).map(async (item) => ({ ...item, rendered: await item.render() }))
 );
+
+const facilityGroups = [
+  {
+    id: 'tem-fib',
+    title: 'TEM & FIB',
+    items: facilities.filter((item) => item.data.section === 'tem-fib'),
+  },
+  {
+    id: 'in-situ-holder',
+    title: 'In-situ holder',
+    items: facilities.filter((item) => item.data.section === 'in-situ-holder'),
+  },
+];
 ---
 
 <BaseLayout title="Facilities" description="Research equipment and facilities">
+  <PageTitle title="Facilities" />
   <section class="section">
-    <div class="container grid two">
+    <div class="container facility-sections">
       {
-        facilities.map((item) => {
-          const Content = item.rendered.Content;
-          return (
-            <article class="card facility-card">
-              <img src={item.data.image} alt="" />
-              <div class="card-body">
-                <p class="meta">{item.data.category}{item.data.location && ` · ${item.data.location}`}</p>
-                <h2>{item.data.title}</h2>
-                {item.data.specs.length > 0 && (
-                  <ul>
-                    {item.data.specs.map((spec) => <li>{spec}</li>)}
-                  </ul>
-                )}
-                <div class="prose small">
-                  <Content />
+        facilityGroups.map((group) => (
+          <section class="facility-group" id={group.id}>
+            <div class="group-head">
+              <h2>{group.title}</h2>
+            </div>
+            {
+              group.items.length > 0 ? (
+                <div class="facility-grid">
+                  {group.items.map((item) => {
+                    const Content = item.rendered.Content;
+                    return (
+                      <article class="card facility-card">
+                        <div class="facility-image-frame">
+                          <img src={item.data.image} alt="" />
+                        </div>
+                        <div class="card-body">
+                          <p class="meta">{item.data.category}{item.data.location && ` · ${item.data.location}`}</p>
+                          <h3>{item.data.title}</h3>
+                          {item.data.specs.length > 0 && (
+                            <ul>
+                              {item.data.specs.map((spec) => <li>{spec}</li>)}
+                            </ul>
+                          )}
+                          <div class="prose small">
+                            <Content />
+                          </div>
+                        </div>
+                      </article>
+                    );
+                  })}
                 </div>
-              </div>
-            </article>
-          );
-        })
+              ) : (
+                <p class="empty-state">No facilities listed yet.</p>
+              )
+            }
+          </section>
+        ))
       }
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .facility-card img {
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
+  .facility-sections {
+    display: grid;
+    gap: 58px;
+  }
+
+  .facility-group {
+    scroll-margin-top: 110px;
+  }
+
+  .group-head {
+    margin-bottom: 20px;
+  }
+
+  .group-head h2 {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+  }
+
+  .facility-grid {
+    display: grid;
+    gap: 22px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .facility-image-frame {
+    align-items: center;
+    aspect-ratio: 4 / 3;
+    background: var(--soft);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: center;
+    padding: 18px;
+  }
+
+  .facility-image-frame img {
+    border-radius: 4px;
+    height: 100%;
+    object-fit: contain;
     width: 100%;
   }
 
-  .facility-card h2 {
+  .facility-card h3 {
+    font-size: 1.25rem;
     margin-top: 6px;
   }
 
@@ -56,5 +123,19 @@ const facilities = await Promise.all(
 
   .small {
     font-size: 0.98rem;
+  }
+
+  .empty-state {
+    border: 1px dashed var(--line);
+    border-radius: 8px;
+    color: var(--muted);
+    margin: 0;
+    padding: 20px;
+  }
+
+  @media (max-width: 820px) {
+    .facility-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

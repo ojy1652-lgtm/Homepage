@@ -1,5 +1,6 @@
 ---
 title: Field Emission Electron Microscope
+section: tem-fib
 category: Characterization
 image: /images/uploads/lab-hero.png
 location: Analysis Room A

@@ -96,6 +96,13 @@ collections:
     format: frontmatter
     fields:
       - { label: Title, name: title, widget: string }
+      - label: Section
+        name: section
+        widget: select
+        default: tem-fib
+        options:
+          - { label: TEM & FIB, value: tem-fib }
+          - { label: In-situ holder, value: in-situ-holder }
       - { label: Category, name: category, widget: string }
       - { label: Image, name: image, widget: image, required: false }
       - { label: Location, name: location, widget: string, required: false }
