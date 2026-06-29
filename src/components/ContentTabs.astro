@@ -27,6 +27,7 @@ const instanceId = `tabs-${Math.random().toString(36).slice(2)}`;
           aria-selected={index === 0 ? 'true' : 'false'}
           class:list={['tab-button', index === 0 ? 'active' : '']}
           data-tab-button
+          data-tab-id={item.id}
           data-tab-target={`${instanceId}-panel-${item.id}`}
           id={`${instanceId}-tab-${item.id}`}
           role="tab"
@@ -72,7 +73,7 @@ const instanceId = `tabs-${Math.random().toString(36).slice(2)}`;
     const buttons = Array.from(root.querySelectorAll('[data-tab-button]'));
     const panels = Array.from(root.querySelectorAll('[data-tab-panel]'));
 
-    const activate = (button) => {
+    const activate = (button, options = {}) => {
       const targetId = button.getAttribute('data-tab-target');
 
       buttons.forEach((item) => {
@@ -86,10 +87,23 @@ const instanceId = `tabs-${Math.random().toString(36).slice(2)}`;
         panel.hidden = !selected;
         panel.classList.toggle('active', selected);
       });
+
+      if (options.updateHash) {
+        const tabId = button.getAttribute('data-tab-id');
+        if (tabId) history.replaceState(null, '', `#${tabId}`);
+      }
+    };
+
+    const activateFromHash = () => {
+      const hash = decodeURIComponent(window.location.hash.replace('#', ''));
+      if (!hash) return;
+
+      const targetButton = buttons.find((button) => button.getAttribute('data-tab-id') === hash);
+      if (targetButton) activate(targetButton);
     };
 
     buttons.forEach((button) => {
-      button.addEventListener('click', () => activate(button));
+      button.addEventListener('click', () => activate(button, { updateHash: true }));
       button.addEventListener('keydown', (event) => {
         const currentIndex = buttons.indexOf(button);
         const lastIndex = buttons.length - 1;
@@ -118,6 +132,9 @@ const instanceId = `tabs-${Math.random().toString(36).slice(2)}`;
         }
       });
     });
+
+    activateFromHash();
+    window.addEventListener('hashchange', activateFromHash);
   });
 </script>
 

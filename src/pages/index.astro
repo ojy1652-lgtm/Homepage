@@ -1,13 +1,32 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import SectionIntro from '@/components/SectionIntro.astro';
 
-const research = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
-const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
-const publications = (await getCollection('publications'))
-  .sort((a, b) => b.data.year - a.data.year || a.data.order - b.data.order)
-  .slice(0, 4);
+const research = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order).slice(0, 6);
+const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 4);
+const allPublications = (await getCollection('publications')).sort(
+  (a, b) => b.data.year - a.data.year || a.data.order - b.data.order
+);
+const publications = [
+  ...allPublications.filter((paper) => paper.data.featured),
+  ...allPublications.filter((paper) => !paper.data.featured),
+].slice(0, 4);
+
+function normalizeAuthor(author: string | { name: string; labMember?: boolean; corresponding?: boolean }) {
+  if (typeof author === 'string') {
+    return { name: author, labMember: false, corresponding: false };
+  }
+
+  return {
+    name: author.name,
+    labMember: Boolean(author.labMember),
+    corresponding: Boolean(author.corresponding),
+  };
+}
+
+function getCitation(paper: (typeof publications)[number]) {
+  return [paper.data.journal, paper.data.volume, paper.data.pages].filter(Boolean).join(', ');
+}
 ---
 
 <BaseLayout
@@ -18,73 +37,29 @@ const publications = (await getCollection('publications'))
     <img src="/images/uploads/lab-hero.png" alt="" class="hero-image" />
     <div class="hero-shade"></div>
     <div class="container hero-content">
-      <p class="eyebrow">University Research Group</p>
-      <h1>Research Lab</h1>
+      <h1>See the Unseen <span>with Electron Microscopy</span></h1>
       <p>
-        We investigate materials, measurement, and intelligent analysis to turn
-        rigorous science into dependable engineering insight.
+        Our research focuses on revealing the structure and electronic behavior of advanced materials using
+        state-of-the-art electron microscopy and spectroscopy.
       </p>
-      <div class="button-row">
-        <a class="button" href="/research/">Explore Research</a>
-        <a class="button secondary" href="/people/">Meet the Team</a>
-      </div>
+      <a class="contact-card" href="mailto:lab@example.edu">
+        <span>Contact the Lab</span>
+        <strong>lab@example.edu</strong>
+      </a>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <SectionIntro
-        eyebrow="Research"
-        title="Focused programs with shared experimental depth"
-        description="관리자 페이지에서 Markdown 콘텐츠를 수정하면 아래 연구 주제 카드가 자동으로 갱신됩니다."
-      />
-      <div class="grid three">
-        {
-          research.map((item) => (
-            <a class="card research-card" href={`/research/${item.slug}/`}>
-              <img src={item.data.cover} alt="" />
-              <div class="card-body">
-                <h3>{item.data.title}</h3>
-                <p>{item.data.summary}</p>
-              </div>
-            </a>
-          ))
-        }
+      <div class="section-head">
+        <h2>Latest News</h2>
+        <a href="/news/">View all</a>
       </div>
-    </div>
-  </section>
-
-  <section class="section alt">
-    <div class="container split">
-      <div>
-        <SectionIntro
-          eyebrow="Publications"
-          title="Recent papers"
-          description="논문 정보는 연도순으로 정렬되며 DOI 또는 외부 링크를 함께 표시합니다."
-        />
-        <a class="button secondary" href="/publications/">All Publications</a>
-      </div>
-      <div class="publication-list">
-        {
-          publications.map((paper) => (
-            <article>
-              <p class="meta">{paper.data.journal} · {paper.data.year}</p>
-              <h3>{paper.data.title}</h3>
-              <p>{paper.data.authors.join(', ')}</p>
-            </article>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <SectionIntro eyebrow="News" title="Latest updates" />
-      <div class="grid three">
+      <div class="news-grid">
         {
           news.map((item) => (
-            <a class="card" href={`/news/${item.slug}/`}>
+            <a class="news-card" href={`/news/${item.slug}/`}>
+              <img src={item.data.cover} alt="" />
               <div class="card-body">
                 <p class="meta">{item.data.date.toLocaleDateString('ko-KR')}</p>
                 <h3>{item.data.title}</h3>
@@ -96,11 +71,70 @@ const publications = (await getCollection('publications'))
       </div>
     </div>
   </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head">
+        <h2>Featured Publications</h2>
+        <a href="/publications/">All publications</a>
+      </div>
+      <div class="publication-list">
+        {
+          publications.map((paper, index) => {
+            const authors = paper.data.authors.map(normalizeAuthor);
+            return (
+            <article>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <h3>{paper.data.title}</h3>
+              <p class="authors">
+                {authors.map((author, authorIndex) => (
+                  <>
+                    {authorIndex > 0 && <span>, </span>}
+                    <span class:list={['author', author.labMember ? 'lab-member' : '']}>
+                      {author.name}
+                      {author.corresponding && <sup>*</sup>}
+                    </span>
+                  </>
+                ))}
+              </p>
+              <p class="meta">{getCitation(paper)} · {paper.data.year}</p>
+              {paper.data.doi && <a href={`https://doi.org/${paper.data.doi}`}>DOI</a>}
+            </article>
+            );
+          })
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Research Topics</h2>
+        <a href="/research/">Explore research</a>
+      </div>
+      <div class="topic-grid">
+        {
+          research.map((item, index) => (
+            <a class="topic-card" href={`/research/#${item.slug}`}>
+              <img src={item.data.cover} alt="" />
+              <div>
+                <span>Research Topic {String(index + 1).padStart(2, '0')}</span>
+                <h3>{item.data.title}</h3>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
   .hero {
-    min-height: 620px;
+    align-items: center;
+    display: flex;
+    min-height: clamp(620px, 78vh, 820px);
     position: relative;
   }
 
@@ -118,74 +152,263 @@ const publications = (await getCollection('publications'))
 
   .hero-shade {
     background:
-      linear-gradient(90deg, rgba(8, 22, 30, 0.82) 0%, rgba(8, 22, 30, 0.52) 44%, rgba(8, 22, 30, 0.08) 100%),
-      linear-gradient(180deg, rgba(8, 22, 30, 0.1) 0%, rgba(8, 22, 30, 0.38) 100%);
+      radial-gradient(circle at 50% 42%, rgba(38, 181, 223, 0.18), transparent 34%),
+      linear-gradient(180deg, rgba(3, 25, 55, 0.72) 0%, rgba(3, 25, 55, 0.84) 100%);
   }
 
   .hero-content {
+    align-items: center;
     color: #fff;
-    padding: 118px 0 96px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 96px 0;
     position: relative;
+    text-align: center;
   }
 
   .hero h1 {
-    font-size: clamp(3rem, 8vw, 7rem);
+    font-size: clamp(3rem, 8vw, 6.8rem);
+    max-width: 1060px;
   }
 
-  .hero p:not(.eyebrow) {
-    color: #e5edf0;
+  .hero h1 span {
+    display: block;
+  }
+
+  .hero p {
+    color: #e8f4f8;
     font-size: clamp(1.08rem, 2vw, 1.35rem);
-    margin: 18px 0 30px;
-    max-width: 720px;
+    margin: 24px auto 30px;
+    max-width: 820px;
   }
 
-  .hero .secondary {
-    border-color: rgba(255, 255, 255, 0.7);
-    color: #fff;
+  .contact-card {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    color: var(--deep);
+    display: inline-grid;
+    min-width: min(100%, 340px);
+    padding: 16px 22px;
+    text-align: center;
   }
 
-  .research-card img {
+  .contact-card span {
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .contact-card strong {
+    color: var(--deep);
+    font-size: 1.08rem;
+  }
+
+  .section-head {
+    align-items: end;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    gap: 18px;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+  }
+
+  .section-head h2 {
+    font-size: clamp(1.9rem, 4vw, 3rem);
+  }
+
+  .section-head a {
+    color: var(--link);
+    font-weight: 800;
+  }
+
+  .news-grid {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .news-card {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: clip;
+  }
+
+  .news-card img {
     aspect-ratio: 16 / 10;
     object-fit: cover;
     width: 100%;
   }
 
-  .split {
-    align-items: start;
-    display: grid;
-    gap: 56px;
-    grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.2fr);
+  .news-card h3 {
+    font-size: 1.08rem;
+  }
+
+  .news-card p:last-child {
+    color: var(--muted);
+    margin-bottom: 0;
   }
 
   .publication-list {
     display: grid;
-    gap: 14px;
+    gap: 12px;
   }
 
   .publication-list article {
+    align-items: start;
     background: #fff;
     border: 1px solid var(--line);
+    border-left: 5px solid var(--brand);
     border-radius: 8px;
+    display: grid;
+    gap: 14px;
+    grid-template-columns: 54px minmax(0, 1fr);
     padding: 20px;
   }
 
-  .publication-list h3 {
-    font-size: 1.08rem;
-    margin: 4px 0 8px;
+  .publication-list article > span {
+    color: var(--accent);
+    font-size: 1.15rem;
+    font-weight: 900;
   }
 
-  .publication-list p:last-child {
+  .publication-list h3,
+  .publication-list .authors,
+  .publication-list .meta,
+  .publication-list a {
+    grid-column: 2;
+  }
+
+  .publication-list h3 {
+    font-size: 1.12rem;
+  }
+
+  .publication-list p {
     color: var(--muted);
     margin: 0;
   }
 
-  @media (max-width: 820px) {
-    .hero {
-      min-height: 560px;
+  .author.lab-member {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 3px;
+  }
+
+  .author sup {
+    color: var(--brand-2);
+    font-size: 0.75em;
+    font-weight: 900;
+    margin-left: 1px;
+  }
+
+  .publication-list a {
+    color: var(--link);
+    font-weight: 800;
+  }
+
+  .topic-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .topic-card {
+    background: var(--deep);
+    border-radius: 8px;
+    display: grid;
+    min-height: 260px;
+    overflow: clip;
+    position: relative;
+  }
+
+  .topic-card img {
+    grid-area: 1 / 1;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.76;
+    transition: transform 220ms ease, opacity 220ms ease;
+    width: 100%;
+  }
+
+  .topic-card::after {
+    background: linear-gradient(180deg, rgba(5, 47, 99, 0.08), rgba(5, 47, 99, 0.86));
+    content: "";
+    grid-area: 1 / 1;
+    z-index: 1;
+  }
+
+  .topic-card div {
+    align-self: end;
+    color: #fff;
+    grid-area: 1 / 1;
+    padding: 22px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .topic-card span {
+    color: #b9ebf8;
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    margin-bottom: 7px;
+    text-transform: uppercase;
+  }
+
+  .topic-card h3 {
+    font-size: 1.32rem;
+  }
+
+  .topic-card:hover img {
+    opacity: 0.92;
+    transform: scale(1.04);
+  }
+
+  @media (max-width: 980px) {
+    .news-grid,
+    .topic-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 680px) {
+    .news-grid,
+    .topic-grid {
+      grid-template-columns: 1fr;
     }
 
-    .split {
+    .section-head {
+      align-items: start;
+      flex-direction: column;
+    }
+
+    .publication-list article {
       grid-template-columns: 1fr;
+    }
+
+    .publication-list h3,
+    .publication-list .authors,
+    .publication-list .meta,
+    .publication-list a {
+      grid-column: 1;
+    }
+  }
+
+  @media (max-width: 820px) {
+    .hero {
+      min-height: 620px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .hero h1 {
+      font-size: 2.7rem;
     }
   }
 </style>
