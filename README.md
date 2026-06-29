@@ -2,6 +2,8 @@
 
 Astro and Decap CMS based research laboratory homepage.
 
+https://em3-homepage.netlify.app/
+
 ## Pages
 
 - Home
