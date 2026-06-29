@@ -1,43 +1,51 @@
 <footer class="site-footer">
   <div class="container footer-inner">
-    <div>
-      <strong>Research Lab</strong>
-      <p>University research group homepage powered by Astro and Decap CMS.</p>
+    <div class="footer-block">
+      <strong>Address.</strong>
+      <p>200 Hyeoksin-ro, Naju, Jeonnam 58330, Republic of Korea</p>
+      <p class="copyright">Copyright KOREA INSTITUTE OF ENERGY TECHNOLOGY. All rights reserved</p>
     </div>
-    <div class="footer-links">
-      <a href="/admin/">Admin</a>
-      <a href="mailto:lab@example.edu">lab@example.edu</a>
+    <div class="footer-block contact">
+      <strong>Contact Info.</strong>
+      <p>TEL : 061-330-9689 E-MAIL : <a href="mailto:shoh@kentech.ac.kr">shoh@kentech.ac.kr</a></p>
     </div>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    background: #17242d;
+    background: #111;
     color: #fff;
-    padding: 34px 0;
+    padding: 38px 0;
   }
 
   .footer-inner {
-    align-items: center;
+    align-items: flex-start;
     display: flex;
     justify-content: space-between;
-    gap: 24px;
+    gap: 40px;
+  }
+
+  .footer-block {
+    max-width: 620px;
+  }
+
+  strong {
+    display: block;
+    margin-bottom: 8px;
   }
 
   p {
-    color: #b8c7ce;
+    color: #d7d7d7;
     margin: 6px 0 0;
   }
 
-  .footer-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
+  .copyright {
+    margin-top: 20px;
   }
 
-  .footer-links a {
-    color: #d9eef2;
+  a {
+    color: #fff;
     font-weight: 700;
   }
 

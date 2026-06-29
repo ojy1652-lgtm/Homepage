@@ -1,0 +1,55 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageTitle from '@/components/PageTitle.astro';
+---
+
+<BaseLayout title="Contact" description="Contact information">
+  <PageTitle title="Contact" />
+  <section class="section">
+    <div class="container contact-layout">
+      <section>
+        <h2>Address.</h2>
+        <p>200 Hyeoksin-ro, Naju, Jeonnam 58330, Republic of Korea</p>
+      </section>
+      <section>
+        <h2>Contact Info.</h2>
+        <p>TEL : 061-330-9689</p>
+        <p>E-MAIL : <a href="mailto:shoh@kentech.ac.kr">shoh@kentech.ac.kr</a></p>
+      </section>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-layout {
+    display: grid;
+    gap: 22px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  section {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 26px;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+    margin-bottom: 14px;
+  }
+
+  p {
+    color: var(--muted);
+  }
+
+  a {
+    color: var(--link);
+    font-weight: 800;
+  }
+
+  @media (max-width: 760px) {
+    .contact-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

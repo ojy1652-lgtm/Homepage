@@ -42,9 +42,9 @@ function getCitation(paper: (typeof publications)[number]) {
         Our research focuses on revealing the structure and electronic behavior of advanced materials using
         state-of-the-art electron microscopy and spectroscopy.
       </p>
-      <a class="contact-card" href="mailto:lab@example.edu">
+      <a class="contact-card" href="/contact/">
         <span>Contact the Lab</span>
-        <strong>lab@example.edu</strong>
+        <strong>Contact information</strong>
       </a>
     </div>
   </section>
@@ -134,7 +134,7 @@ function getCitation(paper: (typeof publications)[number]) {
   .hero {
     align-items: center;
     display: flex;
-    min-height: clamp(620px, 78vh, 820px);
+    min-height: clamp(560px, 72vh, 760px);
     position: relative;
   }
 
@@ -151,9 +151,7 @@ function getCitation(paper: (typeof publications)[number]) {
   }
 
   .hero-shade {
-    background:
-      radial-gradient(circle at 50% 42%, rgba(38, 181, 223, 0.18), transparent 34%),
-      linear-gradient(180deg, rgba(3, 25, 55, 0.72) 0%, rgba(3, 25, 55, 0.84) 100%);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.48) 0%, rgba(0, 0, 0, 0.68) 100%);
   }
 
   .hero-content {
@@ -168,8 +166,8 @@ function getCitation(paper: (typeof publications)[number]) {
   }
 
   .hero h1 {
-    font-size: clamp(3rem, 8vw, 6.8rem);
-    max-width: 1060px;
+    font-size: clamp(2.6rem, 6vw, 5.2rem);
+    max-width: 900px;
   }
 
   .hero h1 span {
@@ -177,8 +175,8 @@ function getCitation(paper: (typeof publications)[number]) {
   }
 
   .hero p {
-    color: #e8f4f8;
-    font-size: clamp(1.08rem, 2vw, 1.35rem);
+    color: #f0f0f0;
+    font-size: clamp(1rem, 1.8vw, 1.22rem);
     margin: 24px auto 30px;
     max-width: 820px;
   }
@@ -262,7 +260,7 @@ function getCitation(paper: (typeof publications)[number]) {
     align-items: start;
     background: #fff;
     border: 1px solid var(--line);
-    border-left: 5px solid var(--brand);
+    border-left: 5px solid var(--ink);
     border-radius: 8px;
     display: grid;
     gap: 14px;
@@ -271,7 +269,7 @@ function getCitation(paper: (typeof publications)[number]) {
   }
 
   .publication-list article > span {
-    color: var(--accent);
+    color: var(--brand-2);
     font-size: 1.15rem;
     font-weight: 900;
   }
@@ -318,7 +316,7 @@ function getCitation(paper: (typeof publications)[number]) {
   }
 
   .topic-card {
-    background: var(--deep);
+    background: #111;
     border-radius: 8px;
     display: grid;
     min-height: 260px;
@@ -336,7 +334,7 @@ function getCitation(paper: (typeof publications)[number]) {
   }
 
   .topic-card::after {
-    background: linear-gradient(180deg, rgba(5, 47, 99, 0.08), rgba(5, 47, 99, 0.86));
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.82));
     content: "";
     grid-area: 1 / 1;
     z-index: 1;
@@ -352,7 +350,7 @@ function getCitation(paper: (typeof publications)[number]) {
   }
 
   .topic-card span {
-    color: #b9ebf8;
+    color: #8bdcf1;
     display: block;
     font-size: 0.78rem;
     font-weight: 900;
@@ -402,13 +400,13 @@ function getCitation(paper: (typeof publications)[number]) {
 
   @media (max-width: 820px) {
     .hero {
-      min-height: 620px;
+      min-height: 560px;
     }
   }
 
   @media (max-width: 520px) {
     .hero h1 {
-      font-size: 2.7rem;
+      font-size: 2.35rem;
     }
   }
 </style>
