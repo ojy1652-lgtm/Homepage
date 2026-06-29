@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+
+const items = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Research" description="Research areas and projects">
+  <PageHeader
+    eyebrow="Research"
+    title="Research"
+    description="핵심 연구 주제를 소개합니다. 각 항목은 Markdown 파일과 Decap CMS에서 관리됩니다."
+  />
+  <section class="section">
+    <div class="container grid two">
+      {
+        items.map((item) => (
+          <a class="card research-card" href={`/research/${item.slug}/`}>
+            <img src={item.data.cover} alt="" />
+            <div class="card-body">
+              <h2>{item.data.title}</h2>
+              <p>{item.data.summary}</p>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .research-card img {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    width: 100%;
+  }
+</style>

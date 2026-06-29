@@ -1,0 +1,109 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+publish_mode: editorial_workflow
+
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+site_url: /
+display_url: /
+logo_url: /images/uploads/lab-hero.png
+
+collections:
+  - name: research
+    label: Research
+    folder: src/content/research
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Summary, name: summary, widget: text }
+      - { label: Cover Image, name: cover, widget: image, required: false }
+      - { label: Order, name: order, widget: number, value_type: int, default: 10 }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: publications
+    label: Publications
+    folder: src/content/publications
+    create: true
+    slug: "{{year}}-{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - label: Authors
+        name: authors
+        widget: list
+        field: { label: Author, name: author, widget: string }
+      - { label: Journal, name: journal, widget: string }
+      - { label: Year, name: year, widget: number, value_type: int }
+      - { label: Volume, name: volume, widget: string, required: false }
+      - { label: Pages, name: pages, widget: string, required: false }
+      - { label: DOI, name: doi, widget: string, required: false }
+      - { label: URL, name: url, widget: string, required: false }
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+        field: { label: Tag, name: tag, widget: string }
+      - { label: Featured, name: featured, widget: boolean, default: false }
+      - { label: Order, name: order, widget: number, value_type: int, default: 10 }
+      - { label: Abstract, name: body, widget: markdown, required: false }
+
+  - name: people
+    label: People
+    folder: src/content/people
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Name, name: name, widget: string }
+      - { label: Role, name: role, widget: string, hint: "PI, Professor, PhD Student, MS Student, Alumni 등" }
+      - { label: Group, name: group, widget: string, required: false }
+      - { label: Email, name: email, widget: string, required: false }
+      - { label: Website, name: website, widget: string, required: false }
+      - { label: Photo, name: photo, widget: image, required: false }
+      - { label: Alumni, name: alumni, widget: boolean, default: false }
+      - { label: Order, name: order, widget: number, value_type: int, default: 10 }
+      - { label: Bio, name: body, widget: markdown, required: false }
+
+  - name: facilities
+    label: Facilities
+    folder: src/content/facilities
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Category, name: category, widget: string }
+      - { label: Image, name: image, widget: image, required: false }
+      - { label: Location, name: location, widget: string, required: false }
+      - label: Specs
+        name: specs
+        widget: list
+        required: false
+        field: { label: Spec, name: spec, widget: string }
+      - { label: Order, name: order, widget: number, value_type: int, default: 10 }
+      - { label: Description, name: body, widget: markdown, required: false }
+
+  - name: news
+    label: News
+    folder: src/content/news
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Date, name: date, widget: datetime, date_format: YYYY-MM-DD, time_format: false, format: YYYY-MM-DD }
+      - { label: Summary, name: summary, widget: text }
+      - { label: Cover Image, name: cover, widget: image, required: false }
+      - { label: Featured, name: featured, widget: boolean, default: false }
+      - { label: Body, name: body, widget: markdown }

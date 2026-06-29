@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('news');
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<BaseLayout title={post.data.title} description={post.data.summary}>
+  <PageHeader
+    eyebrow={post.data.date.toLocaleDateString('ko-KR')}
+    title={post.data.title}
+    description={post.data.summary}
+  />
+  <section class="section">
+    <div class="container">
+      <img class="detail-image" src={post.data.cover} alt="" />
+      <article class="prose">
+        <Content />
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .detail-image {
+    aspect-ratio: 21 / 9;
+    border-radius: 8px;
+    margin-bottom: 34px;
+    object-fit: cover;
+    width: 100%;
+  }
+</style>

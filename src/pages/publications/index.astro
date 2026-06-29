@@ -1,0 +1,110 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+
+const papers = (await getCollection('publications')).sort(
+  (a, b) => b.data.year - a.data.year || a.data.order - b.data.order
+);
+const years = [...new Set(papers.map((paper) => paper.data.year))];
+---
+
+<BaseLayout title="Publications" description="Publication list">
+  <PageHeader
+    eyebrow="Publications"
+    title="Publications"
+    description="연구실 논문 목록입니다. Decap CMS에서 저자, 저널, DOI, 링크를 관리할 수 있습니다."
+  />
+  <section class="section">
+    <div class="container publication-years">
+      {
+        years.map((year) => (
+          <section class="year-block">
+            <h2>{year}</h2>
+            <div class="paper-list">
+              {
+                papers
+                  .filter((paper) => paper.data.year === year)
+                  .map((paper) => (
+                    <article class:list={['paper', paper.data.featured ? 'featured' : '']}>
+                      <h3>{paper.data.title}</h3>
+                      <p>{paper.data.authors.join(', ')}</p>
+                      <p class="meta">
+                        {paper.data.journal}
+                        {paper.data.volume && `, ${paper.data.volume}`}
+                        {paper.data.pages && `, ${paper.data.pages}`}
+                      </p>
+                      <div class="paper-links">
+                        {paper.data.doi && <a href={`https://doi.org/${paper.data.doi}`}>DOI</a>}
+                        {paper.data.url && <a href={paper.data.url}>Link</a>}
+                      </div>
+                    </article>
+                  ))
+              }
+            </div>
+          </section>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .publication-years {
+    display: grid;
+    gap: 42px;
+  }
+
+  .year-block {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: 110px minmax(0, 1fr);
+  }
+
+  .year-block h2 {
+    color: var(--brand);
+    font-size: 1.55rem;
+  }
+
+  .paper-list {
+    display: grid;
+    gap: 14px;
+  }
+
+  .paper {
+    border: 1px solid var(--line);
+    border-left: 5px solid var(--line);
+    border-radius: 8px;
+    padding: 20px;
+  }
+
+  .paper.featured {
+    border-left-color: var(--accent);
+  }
+
+  .paper h3 {
+    font-size: 1.15rem;
+  }
+
+  .paper p {
+    color: var(--muted);
+    margin: 8px 0 0;
+  }
+
+  .paper-links {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .paper-links a {
+    color: var(--link);
+    font-weight: 800;
+  }
+
+  @media (max-width: 700px) {
+    .year-block {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

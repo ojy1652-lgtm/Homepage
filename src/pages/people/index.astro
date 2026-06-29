@@ -1,0 +1,135 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+
+const entries = await getCollection('people');
+const people = await Promise.all(
+  entries
+    .sort((a, b) => Number(a.data.alumni) - Number(b.data.alumni) || a.data.order - b.data.order)
+    .map(async (person) => ({ ...person, rendered: await person.render() }))
+);
+const current = people.filter((person) => !person.data.alumni);
+const alumni = people.filter((person) => person.data.alumni);
+---
+
+<BaseLayout title="People" description="Research lab members">
+  <PageHeader
+    eyebrow="People"
+    title="People"
+    description="교수, 연구원, 학생, 졸업생 정보를 관리합니다. 사진은 CMS 업로드 폴더에서 불러옵니다."
+  />
+  <section class="section">
+    <div class="container">
+      <div class="people-grid">
+        {
+          current.map((person) => {
+            const Content = person.rendered.Content;
+            return (
+              <article class="person-card">
+                <img src={person.data.photo} alt={`${person.data.name} profile`} />
+                <div>
+                  <p class="meta">{person.data.role}{person.data.group && ` · ${person.data.group}`}</p>
+                  <h2>{person.data.name}</h2>
+                  <div class="person-links">
+                    {person.data.email && <a href={`mailto:${person.data.email}`}>{person.data.email}</a>}
+                    {person.data.website && <a href={person.data.website}>Website</a>}
+                  </div>
+                  <div class="prose small">
+                    <Content />
+                  </div>
+                </div>
+              </article>
+            );
+          })
+        }
+      </div>
+
+      {
+        alumni.length > 0 && (
+          <section class="alumni">
+            <h2>Alumni</h2>
+            <div class="alumni-list">
+              {alumni.map((person) => <p><strong>{person.data.name}</strong> · {person.data.role}</p>)}
+            </div>
+          </section>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .people-grid {
+    display: grid;
+    gap: 18px;
+  }
+
+  .person-card {
+    align-items: start;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: grid;
+    gap: 24px;
+    grid-template-columns: 160px minmax(0, 1fr);
+    padding: 22px;
+  }
+
+  .person-card img {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    object-fit: cover;
+    width: 160px;
+  }
+
+  .person-card h2 {
+    font-size: 1.35rem;
+    margin-top: 4px;
+  }
+
+  .person-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 10px 0;
+  }
+
+  .person-links a {
+    color: var(--link);
+    font-weight: 800;
+  }
+
+  .small {
+    font-size: 0.98rem;
+  }
+
+  .alumni {
+    border-top: 1px solid var(--line);
+    margin-top: 48px;
+    padding-top: 32px;
+  }
+
+  .alumni h2 {
+    font-size: 1.5rem;
+    margin-bottom: 14px;
+  }
+
+  .alumni-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .alumni-list p {
+    margin: 0;
+  }
+
+  @media (max-width: 620px) {
+    .person-card {
+      grid-template-columns: 1fr;
+    }
+
+    .person-card img {
+      width: 100%;
+    }
+  }
+</style>

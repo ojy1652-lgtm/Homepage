@@ -1,0 +1,191 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionIntro from '@/components/SectionIntro.astro';
+
+const research = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
+const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
+const publications = (await getCollection('publications'))
+  .sort((a, b) => b.data.year - a.data.year || a.data.order - b.data.order)
+  .slice(0, 4);
+---
+
+<BaseLayout
+  title="Research Lab"
+  description="연구실 소개, 연구 분야, 논문, 구성원, 장비, 소식을 제공하는 홈페이지입니다."
+>
+  <section class="hero">
+    <img src="/images/uploads/lab-hero.png" alt="" class="hero-image" />
+    <div class="hero-shade"></div>
+    <div class="container hero-content">
+      <p class="eyebrow">University Research Group</p>
+      <h1>Research Lab</h1>
+      <p>
+        We investigate materials, measurement, and intelligent analysis to turn
+        rigorous science into dependable engineering insight.
+      </p>
+      <div class="button-row">
+        <a class="button" href="/research/">Explore Research</a>
+        <a class="button secondary" href="/people/">Meet the Team</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionIntro
+        eyebrow="Research"
+        title="Focused programs with shared experimental depth"
+        description="관리자 페이지에서 Markdown 콘텐츠를 수정하면 아래 연구 주제 카드가 자동으로 갱신됩니다."
+      />
+      <div class="grid three">
+        {
+          research.map((item) => (
+            <a class="card research-card" href={`/research/${item.slug}/`}>
+              <img src={item.data.cover} alt="" />
+              <div class="card-body">
+                <h3>{item.data.title}</h3>
+                <p>{item.data.summary}</p>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container split">
+      <div>
+        <SectionIntro
+          eyebrow="Publications"
+          title="Recent papers"
+          description="논문 정보는 연도순으로 정렬되며 DOI 또는 외부 링크를 함께 표시합니다."
+        />
+        <a class="button secondary" href="/publications/">All Publications</a>
+      </div>
+      <div class="publication-list">
+        {
+          publications.map((paper) => (
+            <article>
+              <p class="meta">{paper.data.journal} · {paper.data.year}</p>
+              <h3>{paper.data.title}</h3>
+              <p>{paper.data.authors.join(', ')}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionIntro eyebrow="News" title="Latest updates" />
+      <div class="grid three">
+        {
+          news.map((item) => (
+            <a class="card" href={`/news/${item.slug}/`}>
+              <div class="card-body">
+                <p class="meta">{item.data.date.toLocaleDateString('ko-KR')}</p>
+                <h3>{item.data.title}</h3>
+                <p>{item.data.summary}</p>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    min-height: 620px;
+    position: relative;
+  }
+
+  .hero-image,
+  .hero-shade {
+    height: 100%;
+    inset: 0;
+    position: absolute;
+    width: 100%;
+  }
+
+  .hero-image {
+    object-fit: cover;
+  }
+
+  .hero-shade {
+    background:
+      linear-gradient(90deg, rgba(8, 22, 30, 0.82) 0%, rgba(8, 22, 30, 0.52) 44%, rgba(8, 22, 30, 0.08) 100%),
+      linear-gradient(180deg, rgba(8, 22, 30, 0.1) 0%, rgba(8, 22, 30, 0.38) 100%);
+  }
+
+  .hero-content {
+    color: #fff;
+    padding: 118px 0 96px;
+    position: relative;
+  }
+
+  .hero h1 {
+    font-size: clamp(3rem, 8vw, 7rem);
+  }
+
+  .hero p:not(.eyebrow) {
+    color: #e5edf0;
+    font-size: clamp(1.08rem, 2vw, 1.35rem);
+    margin: 18px 0 30px;
+    max-width: 720px;
+  }
+
+  .hero .secondary {
+    border-color: rgba(255, 255, 255, 0.7);
+    color: #fff;
+  }
+
+  .research-card img {
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .split {
+    align-items: start;
+    display: grid;
+    gap: 56px;
+    grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.2fr);
+  }
+
+  .publication-list {
+    display: grid;
+    gap: 14px;
+  }
+
+  .publication-list article {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 20px;
+  }
+
+  .publication-list h3 {
+    font-size: 1.08rem;
+    margin: 4px 0 8px;
+  }
+
+  .publication-list p:last-child {
+    color: var(--muted);
+    margin: 0;
+  }
+
+  @media (max-width: 820px) {
+    .hero {
+      min-height: 560px;
+    }
+
+    .split {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

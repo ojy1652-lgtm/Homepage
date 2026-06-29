@@ -1,0 +1,79 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+
+const posts = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="News" description="Research lab news">
+  <PageHeader
+    eyebrow="News"
+    title="News"
+    description="연구실 소식, 수상, 세미나, 채용 공지 등을 Markdown 뉴스 글로 관리합니다."
+  />
+  <section class="section">
+    <div class="container news-list">
+      {
+        posts.map((post) => (
+          <a class="news-item" href={`/news/${post.slug}/`}>
+            <img src={post.data.cover} alt="" />
+            <div>
+              <p class="meta">{post.data.date.toLocaleDateString('ko-KR')}</p>
+              <h2>{post.data.title}</h2>
+              <p>{post.data.summary}</p>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .news-list {
+    display: grid;
+    gap: 18px;
+  }
+
+  .news-item {
+    align-items: stretch;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: grid;
+    gap: 22px;
+    grid-template-columns: 260px minmax(0, 1fr);
+    overflow: clip;
+  }
+
+  .news-item img {
+    height: 100%;
+    min-height: 180px;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .news-item div {
+    padding: 22px 22px 22px 0;
+  }
+
+  .news-item h2 {
+    font-size: 1.35rem;
+    margin: 4px 0 10px;
+  }
+
+  .news-item p:last-child {
+    color: var(--muted);
+    margin: 0;
+  }
+
+  @media (max-width: 720px) {
+    .news-item {
+      grid-template-columns: 1fr;
+    }
+
+    .news-item div {
+      padding: 0 20px 20px;
+    }
+  }
+</style>

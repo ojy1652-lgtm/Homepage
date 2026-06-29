@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+
+export async function getStaticPaths() {
+  const items = await getCollection('research');
+  return items.map((item) => ({ params: { slug: item.slug }, props: { item } }));
+}
+
+const { item } = Astro.props;
+const { Content } = await item.render();
+---
+
+<BaseLayout title={item.data.title} description={item.data.summary}>
+  <PageHeader eyebrow="Research" title={item.data.title} description={item.data.summary} />
+  <section class="section">
+    <div class="container">
+      <img class="detail-image" src={item.data.cover} alt="" />
+      <article class="prose">
+        <Content />
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .detail-image {
+    aspect-ratio: 21 / 9;
+    border-radius: 8px;
+    margin-bottom: 34px;
+    object-fit: cover;
+    width: 100%;
+  }
+</style>

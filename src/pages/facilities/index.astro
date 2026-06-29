@@ -1,0 +1,66 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+
+const entries = await getCollection('facilities');
+const facilities = await Promise.all(
+  entries.sort((a, b) => a.data.order - b.data.order).map(async (item) => ({ ...item, rendered: await item.render() }))
+);
+---
+
+<BaseLayout title="Facilities" description="Research equipment and facilities">
+  <PageHeader
+    eyebrow="Facilities"
+    title="Facilities"
+    description="연구실 장비와 공간을 소개합니다. 이미지, 사양, 위치 정보는 관리자 페이지에서 수정할 수 있습니다."
+  />
+  <section class="section">
+    <div class="container grid two">
+      {
+        facilities.map((item) => {
+          const Content = item.rendered.Content;
+          return (
+            <article class="card facility-card">
+              <img src={item.data.image} alt="" />
+              <div class="card-body">
+                <p class="meta">{item.data.category}{item.data.location && ` · ${item.data.location}`}</p>
+                <h2>{item.data.title}</h2>
+                {item.data.specs.length > 0 && (
+                  <ul>
+                    {item.data.specs.map((spec) => <li>{spec}</li>)}
+                  </ul>
+                )}
+                <div class="prose small">
+                  <Content />
+                </div>
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .facility-card img {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .facility-card h2 {
+    margin-top: 6px;
+  }
+
+  ul {
+    color: var(--muted);
+    margin: 14px 0;
+    padding-left: 1.1rem;
+  }
+
+  .small {
+    font-size: 0.98rem;
+  }
+</style>

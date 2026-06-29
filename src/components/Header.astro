@@ -1,0 +1,118 @@
+---
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/research/', label: 'Research' },
+  { href: '/publications/', label: 'Publications' },
+  { href: '/people/', label: 'People' },
+  { href: '/facilities/', label: 'Facilities' },
+  { href: '/news/', label: 'News' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="Research Lab Home">
+      <span class="brand-mark">RL</span>
+      <span>
+        <strong>Research Lab</strong>
+        <small>Science for measurable impact</small>
+      </span>
+    </a>
+    <nav aria-label="Main navigation">
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class:list={[currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href)) ? 'active' : '']}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    background: rgba(255, 255, 255, 0.94);
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    backdrop-filter: blur(12px);
+  }
+
+  .header-inner {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    min-height: 74px;
+    gap: 22px;
+  }
+
+  .brand {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+    min-width: 210px;
+  }
+
+  .brand-mark {
+    align-items: center;
+    background: var(--brand);
+    border-radius: 6px;
+    color: #fff;
+    display: inline-flex;
+    font-weight: 800;
+    height: 42px;
+    justify-content: center;
+    width: 42px;
+  }
+
+  .brand strong {
+    display: block;
+    font-size: 1rem;
+  }
+
+  .brand small {
+    color: var(--muted);
+    display: block;
+    font-size: 0.78rem;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: flex-end;
+  }
+
+  nav a {
+    border-radius: 6px;
+    color: var(--muted);
+    font-size: 0.94rem;
+    font-weight: 700;
+    padding: 9px 11px;
+  }
+
+  nav a.active,
+  nav a:hover {
+    background: #e7f1f2;
+    color: var(--brand);
+  }
+
+  @media (max-width: 760px) {
+    .header-inner {
+      align-items: flex-start;
+      flex-direction: column;
+      padding: 14px 0;
+    }
+
+    nav {
+      justify-content: flex-start;
+    }
+  }
+</style>
