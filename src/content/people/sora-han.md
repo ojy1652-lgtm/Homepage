@@ -1,4 +1,5 @@
 ---
+order: 4
 name: Sora Han
 role: Collaborator
 category: collaborator
@@ -10,7 +11,6 @@ education:
   - Ph.D. Physics, Pusan National University (PNU), Korea (2021)
   - B.S. Physics, Pusan National University (PNU), Korea (2015)
 alumni: false
-order: 30
 ---
 
 Sora collaborates with the lab on computational analysis and model-guided experimental planning.
