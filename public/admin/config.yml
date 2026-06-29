@@ -34,10 +34,10 @@ collections:
     slug: "{{year}}-{{slug}}"
     extension: md
     format: frontmatter
-    sortable_fields: ["order", "year", "title", "journal"]
-    summary: "{{order}} · {{year}} · {{title}}"
+    sortable_fields: ["year", "title", "journal"]
+    summary: "{{year}} · {{title}}"
     fields:
-      - { label: Display Order, name: order, widget: number, value_type: int, default: 10, hint: "작은 숫자가 먼저 표시됩니다." }
+      - { label: Display Order, name: order, widget: hidden, default: 10 }
       - { label: Title, name: title, widget: string }
       - label: Authors
         name: authors
@@ -63,10 +63,10 @@ collections:
     slug: "{{slug}}"
     extension: md
     format: frontmatter
-    sortable_fields: ["order", "name", "role", "category"]
-    summary: "{{order}} · {{name}} · {{role}}"
+    sortable_fields: ["name", "role", "category"]
+    summary: "{{category}} · {{name}} · {{role}}"
     fields:
-      - { label: Display Order, name: order, widget: number, value_type: int, default: 10, hint: "작은 숫자가 먼저 표시됩니다." }
+      - { label: Display Order, name: order, widget: hidden, default: 10 }
       - { label: Name, name: name, widget: string }
       - { label: Role, name: role, widget: string, hint: "PI, Professor, PhD Student, MS Student, Alumni 등" }
       - label: Category

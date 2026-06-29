@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Workflow Publisher</title>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <link rel="stylesheet" href="/admin/tool-pages.css" />
+  </head>
+  <body>
+    <main>
+      <a class="button secondary" href="/admin/">Back to CMS</a>
+      <h1>Workflow Publisher</h1>
+      <p>
+        This lists open CMS workflow pull requests and lets you publish selected entries together. Entries saved as
+        drafts remain draft until published here or in Decap CMS.
+      </p>
+      <div class="toolbar">
+        <button type="button" data-load>Load workflow items</button>
+        <button type="button" class="secondary" data-login>Login</button>
+        <button type="button" data-publish>Publish checked items</button>
+      </div>
+      <div data-list class="manager-list"></div>
+      <pre data-log>Load workflow items to begin.</pre>
+    </main>
+    <script src="/admin/workflow-publisher.js"></script>
+  </body>
+</html>

@@ -7,24 +7,35 @@
     <title>Research Lab CMS</title>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
+      .admin-tool-links {
+        bottom: 18px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: flex-end;
+        position: fixed;
+        right: 18px;
+        z-index: 9999;
+      }
+
       .admin-tool-link {
         background: #00316c;
         border-radius: 6px;
-        bottom: 18px;
         color: #fff;
         font-family: Inter, ui-sans-serif, system-ui, sans-serif;
         font-size: 13px;
         font-weight: 800;
         padding: 10px 12px;
-        position: fixed;
-        right: 18px;
         text-decoration: none;
-        z-index: 9999;
       }
     </style>
   </head>
   <body>
-    <a class="admin-tool-link" href="/admin/publications-import.html">Publication Excel Import</a>
+    <div class="admin-tool-links">
+      <a class="admin-tool-link" href="/admin/publications-import.html">Publication Excel Import</a>
+      <a class="admin-tool-link" href="/admin/order-manager.html">Order Manager</a>
+      <a class="admin-tool-link" href="/admin/workflow-publisher.html">Workflow Publisher</a>
+    </div>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
     <script src="/admin/authors-widget.js"></script>
   </body>
