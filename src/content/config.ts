@@ -34,10 +34,15 @@ const people = defineCollection({
   schema: z.object({
     name: z.string(),
     role: z.string(),
+    category: z
+      .enum(['principal-investigator', 'researcher', 'alumni', 'collaborator'])
+      .optional()
+      .default('researcher'),
     group: z.string().optional(),
     email: z.string().optional(),
     website: z.string().optional(),
     photo: z.string().optional().default('/images/uploads/profile-placeholder.svg'),
+    education: z.array(z.string()).optional().default([]),
     alumni: z.boolean().default(false),
     order: z.number().default(10),
   }),

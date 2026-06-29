@@ -65,10 +65,24 @@ collections:
     fields:
       - { label: Name, name: name, widget: string }
       - { label: Role, name: role, widget: string, hint: "PI, Professor, PhD Student, MS Student, Alumni 등" }
+      - label: Category
+        name: category
+        widget: select
+        default: researcher
+        options:
+          - { label: Principal Investigator, value: principal-investigator }
+          - { label: Researcher, value: researcher }
+          - { label: Alumni, value: alumni }
+          - { label: Collaborator, value: collaborator }
       - { label: Group, name: group, widget: string, required: false }
       - { label: Email, name: email, widget: string, required: false }
       - { label: Website, name: website, widget: string, required: false }
       - { label: Photo, name: photo, widget: image, required: false }
+      - label: Education
+        name: education
+        widget: list
+        required: false
+        field: { label: Education Item, name: item, widget: string }
       - { label: Alumni, name: alumni, widget: boolean, default: false }
       - { label: Order, name: order, widget: number, value_type: int, default: 10 }
       - { label: Bio, name: body, widget: markdown, required: false }

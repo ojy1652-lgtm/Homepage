@@ -1,0 +1,118 @@
+---
+interface Props {
+  name: string;
+  role: string;
+  group?: string;
+  email?: string;
+  website?: string;
+  photo?: string;
+  education?: string[];
+  Content: any;
+}
+
+const {
+  name,
+  role,
+  group,
+  email,
+  website,
+  photo = '/images/uploads/profile-placeholder.svg',
+  education = [],
+  Content,
+} = Astro.props;
+---
+
+<article class="person-card">
+  <img src={photo} alt={`${name} profile`} />
+  <div class="person-main">
+    <p class="meta">{role}{group && ` · ${group}`}</p>
+    <h3>{name}</h3>
+    <div class="person-links">
+      {email && <a href={`mailto:${email}`}>{email}</a>}
+      {website && <a href={website}>Website</a>}
+    </div>
+    {
+      education.length > 0 && (
+        <section class="education" aria-label={`${name} education`}>
+          <h4>Education</h4>
+          <ul>
+            {education.map((item) => <li>{item}</li>)}
+          </ul>
+        </section>
+      )
+    }
+    <div class="prose small">
+      <Content />
+    </div>
+  </div>
+</article>
+
+<style>
+  .person-card {
+    align-items: start;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: grid;
+    gap: 24px;
+    grid-template-columns: 160px minmax(0, 1fr);
+    padding: 22px;
+  }
+
+  .person-card img {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    object-fit: cover;
+    width: 160px;
+  }
+
+  .person-main h3 {
+    font-size: 1.35rem;
+    margin-top: 4px;
+  }
+
+  .person-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 10px 0;
+  }
+
+  .person-links a {
+    color: var(--link);
+    font-weight: 800;
+  }
+
+  .education {
+    border-left: 3px solid var(--accent);
+    margin: 16px 0;
+    padding-left: 14px;
+  }
+
+  .education h4 {
+    font-size: 0.92rem;
+    margin: 0 0 8px;
+    text-transform: uppercase;
+  }
+
+  .education ul {
+    color: var(--muted);
+    display: grid;
+    gap: 5px;
+    margin: 0;
+    padding-left: 1rem;
+  }
+
+  .small {
+    font-size: 0.98rem;
+  }
+
+  @media (max-width: 620px) {
+    .person-card {
+      grid-template-columns: 1fr;
+    }
+
+    .person-card img {
+      width: 100%;
+    }
+  }
+</style>
