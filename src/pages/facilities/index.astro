@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import PageHeader from '@/components/PageHeader.astro';
 
 const entries = await getCollection('facilities');
 const facilities = await Promise.all(
@@ -10,11 +9,6 @@ const facilities = await Promise.all(
 ---
 
 <BaseLayout title="Facilities" description="Research equipment and facilities">
-  <PageHeader
-    eyebrow="Facilities"
-    title="Facilities"
-    description="연구실 장비와 공간을 소개합니다. 이미지, 사양, 위치 정보는 관리자 페이지에서 수정할 수 있습니다."
-  />
   <section class="section">
     <div class="container grid two">
       {

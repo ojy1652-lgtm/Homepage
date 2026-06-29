@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import PageHeader from '@/components/PageHeader.astro';
 import PersonCard from '@/components/PersonCard.astro';
 
 const entries = await getCollection('people');
@@ -34,18 +33,12 @@ const peopleGroups = [
 ---
 
 <BaseLayout title="People" description="Research lab members">
-  <PageHeader
-    eyebrow="People"
-    title="People"
-    description="교수, 연구원, 학생, 졸업생 정보를 관리합니다. 사진은 CMS 업로드 폴더에서 불러옵니다."
-  />
   <section class="section">
     <div class="container people-sections">
       {
         peopleGroups.map((group) => (
           <section class="people-group" id={group.id}>
             <div class="group-head">
-              <p class="eyebrow">People</p>
               <h2>{group.title}</h2>
               <p>{group.description}</p>
             </div>
@@ -98,7 +91,7 @@ const peopleGroups = [
     font-size: clamp(1.8rem, 3vw, 2.6rem);
   }
 
-  .group-head p:not(.eyebrow) {
+  .group-head p {
     color: var(--muted);
     margin-top: 10px;
   }

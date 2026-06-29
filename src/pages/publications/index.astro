@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import PageHeader from '@/components/PageHeader.astro';
 
 const papers = (await getCollection('publications')).sort(
   (a, b) => b.data.year - a.data.year || a.data.order - b.data.order
@@ -10,11 +9,6 @@ const years = [...new Set(papers.map((paper) => paper.data.year))];
 ---
 
 <BaseLayout title="Publications" description="Publication list">
-  <PageHeader
-    eyebrow="Publications"
-    title="Publications"
-    description="연구실 논문 목록입니다. Decap CMS에서 저자, 저널, DOI, 링크를 관리할 수 있습니다."
-  />
   <section class="section">
     <div class="container publication-years">
       {

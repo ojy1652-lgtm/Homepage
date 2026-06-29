@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import PageHeader from '@/components/PageHeader.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('news');
@@ -13,13 +12,13 @@ const { Content } = await post.render();
 ---
 
 <BaseLayout title={post.data.title} description={post.data.summary}>
-  <PageHeader
-    eyebrow={post.data.date.toLocaleDateString('ko-KR')}
-    title={post.data.title}
-    description={post.data.summary}
-  />
   <section class="section">
     <div class="container">
+      <header class="detail-head">
+        <p class="meta">{post.data.date.toLocaleDateString('ko-KR')}</p>
+        <h1>{post.data.title}</h1>
+        <p>{post.data.summary}</p>
+      </header>
       <img class="detail-image" src={post.data.cover} alt="" />
       <article class="prose">
         <Content />
@@ -29,6 +28,22 @@ const { Content } = await post.render();
 </BaseLayout>
 
 <style>
+  .detail-head {
+    margin-bottom: 28px;
+    max-width: 840px;
+  }
+
+  .detail-head h1 {
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    margin-top: 6px;
+  }
+
+  .detail-head p:not(.meta) {
+    color: var(--muted);
+    font-size: 1.08rem;
+    margin-top: 12px;
+  }
+
   .detail-image {
     aspect-ratio: 21 / 9;
     border-radius: 8px;

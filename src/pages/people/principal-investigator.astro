@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import PageHeader from '@/components/PageHeader.astro';
 
 const entries = await getCollection('people');
 const principalInvestigators = await Promise.all(
@@ -13,11 +12,6 @@ const principalInvestigators = await Promise.all(
 ---
 
 <BaseLayout title="Principal Investigator" description="Principal investigator profile">
-  <PageHeader
-    eyebrow="People"
-    title="Principal Investigator"
-    description="연구실 책임 연구자 소개 페이지입니다."
-  />
   <section class="section">
     <div class="container pi-list">
       {

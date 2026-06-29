@@ -1,17 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import PageHeader from '@/components/PageHeader.astro';
 
 const posts = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
 <BaseLayout title="News" description="Research lab news">
-  <PageHeader
-    eyebrow="News"
-    title="News"
-    description="연구실 소식, 수상, 세미나, 채용 공지 등을 Markdown 뉴스 글로 관리합니다."
-  />
   <section class="section">
     <div class="container news-list">
       {

@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import ContentTabs from '@/components/ContentTabs.astro';
-import PageHeader from '@/components/PageHeader.astro';
 
 const items = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
 const tabItems = await Promise.all(
@@ -22,11 +21,6 @@ const tabItems = await Promise.all(
 ---
 
 <BaseLayout title="Research" description="Research areas and projects">
-  <PageHeader
-    eyebrow="Research"
-    title="Research"
-    description="핵심 연구 주제를 소개합니다. 각 항목은 Markdown 파일과 Decap CMS에서 관리됩니다."
-  />
   <section class="section">
     <div class="container">
       <ContentTabs items={tabItems} imageAltPrefix="Research topic: " />
