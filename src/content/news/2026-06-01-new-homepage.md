@@ -1,9 +1,7 @@
 ---
-title: New lab homepage launched
-date: 2026-06-01
-summary: The research group launched a new Astro and Decap CMS-based homepage.
-cover: /images/uploads/lab-hero.png
+title: Humboldt Research Award
+date: 2026-06-29
+summary: Professor Sang Ho Oh has received the Humboldt Research Award. Congratulations!
+cover: /images/uploads/260629_1
 featured: true
 ---
-
-Our new homepage is now live. Lab members can update research areas, publications, facilities, people, and news through the CMS.
