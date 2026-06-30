@@ -5,3 +5,5 @@ summary: Professor Sang Ho Oh has received the Humboldt Research Award. Congratu
 cover: /images/uploads/260629_1
 featured: true
 ---
+
+![](/images/uploads/Surface Reconstruction.avif "260629_2")
