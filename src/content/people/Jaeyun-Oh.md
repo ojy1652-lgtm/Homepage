@@ -1,5 +1,6 @@
 ---
 order: 18
+order: 18
 name: Jaeyun Oh
 role: Undergraduate Researcher
 category: researcher
