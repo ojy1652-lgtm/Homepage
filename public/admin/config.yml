@@ -13,6 +13,41 @@ display_url: /
 logo_url: /images/uploads/lab-hero.png
 
 collections:
+  - name: principal_investigator
+    label: Principal Investigator
+    files:
+      - label: PI Profile
+        name: pi_profile
+        file: src/content/pi/sang-ho-oh.md
+        fields:
+          - { label: Label, name: label, widget: string, default: Principal Investigator }
+          - { label: Name, name: name, widget: string }
+          - { label: Title, name: title, widget: string, default: Professor }
+          - { label: Department, name: department, widget: string }
+          - { label: Institution, name: institution, widget: string }
+          - { label: Location, name: location, widget: string }
+          - { label: Email, name: email, widget: string }
+          - { label: Google Scholar URL, name: scholarUrl, widget: string, required: false }
+          - { label: Photo, name: photo, widget: image, required: false }
+          - label: Education
+            name: education
+            widget: list
+            required: false
+            field: { label: Education Item, name: item, widget: string }
+          - label: Research Experience
+            name: researchExperience
+            widget: list
+            required: false
+            fields:
+              - { label: Position, name: position, widget: string }
+              - { label: Period, name: period, widget: string }
+              - { label: Affiliation, name: affiliation, widget: text }
+          - label: Representative Publications
+            name: representativePublications
+            widget: list
+            required: false
+            field: { label: Publication, name: publication, widget: text }
+
   - name: research
     label: Research
     folder: src/content/research
@@ -74,7 +109,6 @@ collections:
         widget: select
         default: researcher
         options:
-          - { label: Principal Investigator, value: principal-investigator }
           - { label: Researcher, value: researcher }
           - { label: Alumni, value: alumni }
           - { label: Collaborator, value: collaborator }

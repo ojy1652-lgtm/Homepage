@@ -58,6 +58,33 @@ const people = defineCollection({
   }),
 });
 
+const pi = defineCollection({
+  type: 'content',
+  schema: z.object({
+    label: z.string().default('Principal Investigator'),
+    name: z.string(),
+    title: z.string(),
+    department: z.string(),
+    institution: z.string(),
+    location: z.string(),
+    email: z.string().email(),
+    scholarUrl: z.string().url().optional(),
+    photo: z.string().optional().default('/images/uploads/profile-placeholder.svg'),
+    education: z.array(z.string()).optional().default([]),
+    researchExperience: z
+      .array(
+        z.object({
+          position: z.string(),
+          period: z.string(),
+          affiliation: z.string(),
+        })
+      )
+      .optional()
+      .default([]),
+    representativePublications: z.array(z.string()).optional().default([]),
+  }),
+});
+
 const facilities = defineCollection({
   type: 'content',
   schema: z.object({
@@ -86,6 +113,7 @@ export const collections = {
   research,
   publications,
   people,
+  pi,
   facilities,
   news,
 };

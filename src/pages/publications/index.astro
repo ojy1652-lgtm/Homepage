@@ -20,6 +20,26 @@ function normalizeAuthor(author: string | { name: string; labMember?: boolean; c
   };
 }
 
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function getAuthorsHtml(authors: ReturnType<typeof normalizeAuthor>[]) {
+  return authors
+    .map((author, index) => {
+      const className = author.labMember ? 'author lab-member' : 'author';
+      const marker = author.corresponding ? '<sup>*</sup>' : '';
+      const separator = index < authors.length - 1 ? '<span class="author-separator">, </span>' : '';
+      return `<span class="author-token"><span class="${className}">${escapeHtml(author.name)}${marker}</span>${separator}</span>`;
+    })
+    .join('');
+}
+
 function getSearchText(paper: (typeof papers)[number]) {
   const authors = paper.data.authors.map(normalizeAuthor).map((author) => author.name).join(' ');
   return [
@@ -67,23 +87,13 @@ function getCitation(paper: (typeof papers)[number]) {
                         data-search={getSearchText(paper)}
                       >
                         <h3>{paper.data.title}</h3>
-                        <p class="authors">
-                          {authors.map((author, index) => (
-                            <>
-                              {index > 0 && <span>, </span>}
-                              <span class:list={['author', author.labMember ? 'lab-member' : '']}>
-                                {author.name}
-                                {author.corresponding && <sup>*</sup>}
-                              </span>
-                            </>
-                          ))}
-                        </p>
+                        <p class="authors" set:html={getAuthorsHtml(authors)} />
                         <p class="meta">
                           {getCitation(paper)}
                         </p>
                         {paper.data.doi && (
                           <div class="paper-links">
-                            <a href={`https://doi.org/${paper.data.doi}`}>DOI</a>
+                            <a href={`https://doi.org/${paper.data.doi}`} target="_blank" rel="noreferrer">DOI</a>
                           </div>
                         )}
                       </article>
@@ -205,6 +215,15 @@ function getCitation(paper: (typeof papers)[number]) {
     color: var(--muted);
   }
 
+  .author-token,
+  .author {
+    display: inline-flex;
+  }
+
+  .author {
+    align-items: baseline;
+  }
+
   .author.lab-member {
     color: var(--ink);
     text-decoration: underline;
@@ -216,7 +235,7 @@ function getCitation(paper: (typeof papers)[number]) {
     color: var(--brand-2);
     font-size: 0.75em;
     font-weight: 900;
-    margin-left: 1px;
+    margin-left: 0;
   }
 
   .paper-links {
