@@ -6,4 +6,4 @@ cover: /images/uploads/lab-hero.png
 featured: false
 ---
 
-![](/images/uploads/Surface Reconstruction.avif "260611_1")
+![](/images/uploads/Surface Reconstruction.avif "260611_2")
