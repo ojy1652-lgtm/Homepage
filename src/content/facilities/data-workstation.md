@@ -1,14 +1,11 @@
 ---
-title: Data Analysis Workstations
+title: Gatan 654
 section: in-situ-holder
-category: Computing
+category: In-situ TEM-straining holder
 image: /images/uploads/lab-hero.png
-location: Collaboration Space
+location: 연구1동
 specs:
-  - GPU-enabled analysis machines
-  - Shared microscopy data storage
-  - Reproducible workflow templates
+  - In situ tensile testing of specifically designed sample inside TEM
+  - Mode of mechanical testing: Straining
 order: 3
 ---
-
-Workstations support image processing, model training, and collaborative analysis.
