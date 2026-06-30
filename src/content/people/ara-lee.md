@@ -1,15 +1,14 @@
 ---
-name: Ara Lee
-role: PhD Student
-category: researcher
-group: Intelligent Materials
-email: ara.lee@example.edu
-photo: /images/uploads/profile-placeholder.svg
-education:
-  - M.S. Physics, Pusan National University (PNU), Korea (2023)
-  - B.S. Physics, Pusan National University (PNU), Korea (2021)
-alumni: false
 order: 2
+name: Jeehun Jeong
+role: Post-doctoral Researcher
+category: researcher
+group: ""
+email: jhjeong@kentech.ac.kr
+photo: /images/uploads/정지훈.avif
+education:
+  - Ph.D Energy Science and Engineering, KENTECH, Korea (2025)
+  - B.S. Materials Science and Engineering, SKKU, Korea (2018)
+alumni: false
 ---
-
-Ara studies uncertainty-aware models for candidate selection and experimental planning.
+In-situ TEM analysis with ferroelectric tunneling junction (FTJ) devices​
