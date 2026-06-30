@@ -1,5 +1,6 @@
 ---
 order: 12
+order: 12
 name: Keeyong Lee
 role: Ph.D. Candidate
 category: researcher
