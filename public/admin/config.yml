@@ -69,10 +69,10 @@ collections:
     slug: "{{year}}-{{slug}}"
     extension: md
     format: frontmatter
-    sortable_fields: ["year", "title", "journal"]
-    summary: "{{year}} · {{title}}"
+    sortable_fields: ["order", "year", "title", "journal"]
+    summary: "{{order}} · {{year}} · {{title}}"
     fields:
-      - { label: Display Order, name: order, widget: hidden, default: 10 }
+      - { label: Display Order, name: order, widget: number, value_type: int, default: 10, hint: "같은 연도 안에서 큰 숫자가 위에 표시됩니다." }
       - { label: Title, name: title, widget: string }
       - label: Authors
         name: authors
@@ -98,10 +98,10 @@ collections:
     slug: "{{slug}}"
     extension: md
     format: frontmatter
-    sortable_fields: ["name", "role", "category"]
-    summary: "{{category}} · {{name}} · {{role}}"
+    sortable_fields: ["order", "name", "role", "category"]
+    summary: "{{order}} · {{name}} · {{role}}"
     fields:
-      - { label: Display Order, name: order, widget: hidden, default: 10 }
+      - { label: Display Order, name: order, widget: number, value_type: int, default: 10, hint: "작은 숫자가 위에 표시됩니다." }
       - { label: Name, name: name, widget: string }
       - { label: Role, name: role, widget: string, hint: "PI, Professor, PhD Student, MS Student, Alumni 등" }
       - label: Category

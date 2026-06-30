@@ -1,6 +1,5 @@
 ---
 order: 14
-order: 14
 name: Jinha Yoon
 role: Ph.D. Candidate
 category: researcher

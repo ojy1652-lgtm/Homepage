@@ -1,6 +1,5 @@
 ---
 order: 15
-order: 15
 name: Minchan Seong
 role: Ph.D. Candidate
 category: researcher

@@ -1,6 +1,5 @@
 ---
 order: 16
-order: 16
 name: Daeyeong Kim
 role: Ph.D. Candidate
 category: researcher

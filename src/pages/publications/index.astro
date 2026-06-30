@@ -24,7 +24,7 @@ function comparePublications(a: (typeof papers)[number], b: (typeof papers)[numb
   if (aYear !== null && bYear === null) return 1;
   if (aYear !== null && bYear !== null && aYear !== bYear) return bYear - aYear;
 
-  return a.data.order - b.data.order || a.data.title.localeCompare(b.data.title);
+  return b.data.order - a.data.order || a.data.title.localeCompare(b.data.title);
 }
 
 function normalizeAuthor(author: string | { name: string; labMember?: boolean; corresponding?: boolean }) {

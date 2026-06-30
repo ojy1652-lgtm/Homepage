@@ -1,6 +1,5 @@
 ---
 order: 11
-order: 11
 name: Jeehun Jeong
 role: Post-doctoral Researcher
 category: researcher
