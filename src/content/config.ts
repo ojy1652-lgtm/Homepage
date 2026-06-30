@@ -1,6 +1,15 @@
 import { defineCollection, z } from 'astro:content';
 
 const imageField = z.string().optional().default('/images/uploads/lab-hero.png');
+const specItem = z
+  .union([z.string(), z.object({ spec: z.string() }), z.record(z.union([z.string(), z.number(), z.boolean()]))])
+  .transform((value) => {
+    if (typeof value === 'string') return value;
+    if ('spec' in value) return value.spec;
+    return Object.entries(value)
+      .map(([key, entry]) => `${key}: ${entry}`)
+      .join(', ');
+  });
 
 const research = defineCollection({
   type: 'content',
@@ -92,7 +101,7 @@ const facilities = defineCollection({
     category: z.string(),
     image: imageField,
     location: z.string().optional(),
-    specs: z.array(z.string()).optional().default([]),
+    specs: z.array(specItem).optional().default([]),
     order: z.number().default(10),
   }),
 });
