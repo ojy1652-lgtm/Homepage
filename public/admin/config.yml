@@ -79,7 +79,7 @@ collections:
         widget: authors_with_flags
         hint: "쉼표와 띄어쓰기로 저자를 한 번에 입력하면 자동으로 사람별 항목이 생성됩니다."
       - { label: Journal, name: journal, widget: string }
-      - { label: Year, name: year, widget: number, value_type: int }
+      - { label: Year, name: year, widget: string, required: false, hint: "2026처럼 숫자를 입력하거나 accepted/submitted처럼 상태를 입력할 수 있습니다." }
       - { label: Volume, name: volume, widget: string, required: false }
       - { label: Pages, name: pages, widget: string, required: false }
       - { label: DOI, name: doi, widget: string, required: false }

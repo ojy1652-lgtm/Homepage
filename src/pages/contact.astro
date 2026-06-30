@@ -3,53 +3,135 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageTitle from '@/components/PageTitle.astro';
 ---
 
-<BaseLayout title="Contact" description="Contact information">
-  <PageTitle title="Contact" />
+<BaseLayout title="Open Positions" description="Open positions and contact information">
+  <PageTitle title="Open Positions" />
   <section class="section">
-    <div class="container contact-layout">
-      <section>
-        <h2>Address.</h2>
-        <p>200 Hyeoksin-ro, Naju, Jeonnam 58330, Republic of Korea</p>
+    <div class="container position-page">
+      <article class="position-intro">
+        <h2>Open Positions for Postdoctor & Graduate Students</h2>
+        <p>
+          The Electron Microscopy for Energy Materials via Environment Manipulation Lab (EM<sup>3</sup>) of
+          Institute for Energy Materials and Devices located at Naju, South Korea, has two open positions for
+          postdoctoral researchers on the materials science programs which will be pursued by using the most advanced
+          aberration-corrected in-situ TEM/STEM.
+        </p>
+        <p>
+          EM<sup>3</sup> run by Prof. Sang Ho Oh (previously affiliated to POSTECH, Pohang, South Korea), equipped
+          with the two state-of-the-art TEM/STEM systems, JEOL ARM 200F with double Cs correctors (particularly an
+          ASCOR probe corrector from CEOS), Grand ARM 300F with double Cs correctors, and various detectors
+          (high-resolution EELS and EDS, SAAF detectors, and bi-prism for electron holography) and in situ TEM holders
+          (heating, heating/biasing, gas flow holders from DENS Solutions, straining holder from Gatan, and
+          nanoindentation holder from Hysitron).
+        </p>
+      </article>
+
+      <section class="requirements">
+        <h2>Basic requirements of postdoctor position:</h2>
+        <ul>
+          <li>Ph.D in Materials Science, Condensed Matter Physics, Solid State Chemistry or related discipline;</li>
+          <li>
+            expertise in TEM characterization techniques (advantageous for in-situ TEM and/or aberration-corrected
+            TEM/STEM experiences) and the appropriate sample preparation methods;
+          </li>
+          <li>
+            TEM data analysis skills and experience in using computers for data acquisition, analysis, and modeling.
+            Knowledge of basic computer programming (Matlab, etc.) or scripting is also advantageous;
+          </li>
+          <li>good written and oral communication skills;</li>
+          <li>strong self-motivation to work both independently and as a part of a team;</li>
+          <li>
+            proven ability for disseminating research results by writing manuscripts and giving academic presentations.
+          </li>
+        </ul>
       </section>
-      <section>
-        <h2>Contact Info.</h2>
-        <p>TEL : 061-330-9689</p>
-        <p>E-MAIL : <a href="mailto:shoh@kentech.ac.kr">shoh@kentech.ac.kr</a></p>
+
+      <section class="application-info">
+        <p>Salary will be commensurate with qualifications and experience.</p>
+        <h2>Interested candidates are invited to send their CV to:</h2>
+        <address>
+          <strong>Prof. Sang Ho Oh</strong>
+          <a href="mailto:shoh@kentech.ac.kr">shoh@kentech.ac.kr</a>
+          <span>Department of Energy Engineering, KENTECH, Naju, Korea</span>
+        </address>
       </section>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .contact-layout {
+  .position-page {
     display: grid;
-    gap: 22px;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 38px;
+    max-width: 980px;
   }
 
-  section {
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 26px;
+  .position-intro,
+  .requirements,
+  .application-info {
+    border-top: 1px solid var(--line);
+    padding-top: 28px;
+  }
+
+  .position-intro {
+    border-top: 0;
+    padding-top: 0;
   }
 
   h2 {
-    font-size: 1.4rem;
-    margin-bottom: 14px;
+    font-size: clamp(1.45rem, 3vw, 2.15rem);
+    margin-bottom: 18px;
+  }
+
+  p,
+  li {
+    color: var(--muted);
+    font-size: 1.03rem;
+    line-height: 1.75;
   }
 
   p {
-    color: var(--muted);
+    margin-bottom: 18px;
   }
 
-  a {
+  ul {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding-left: 1.2rem;
+  }
+
+  li::marker {
+    color: var(--brand);
+  }
+
+  .application-info {
+    background: var(--soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 28px;
+  }
+
+  .application-info h2 {
+    font-size: 1.25rem;
+    margin-top: 8px;
+  }
+
+  address {
+    display: grid;
+    font-style: normal;
+    gap: 8px;
+  }
+
+  address strong {
+    font-size: 1.12rem;
+  }
+
+  address a {
     color: var(--link);
     font-weight: 800;
   }
 
-  @media (max-width: 760px) {
-    .contact-layout {
-      grid-template-columns: 1fr;
-    }
+  address span {
+    color: var(--muted);
   }
 </style>

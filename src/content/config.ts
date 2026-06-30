@@ -29,7 +29,7 @@ const publications = defineCollection({
       )
       .default([]),
     journal: z.string(),
-    year: z.number(),
+    year: z.union([z.number(), z.string()]).optional().default(''),
     volume: z.string().optional(),
     pages: z.string().optional(),
     doi: z.string().optional(),

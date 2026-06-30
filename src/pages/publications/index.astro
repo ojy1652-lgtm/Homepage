@@ -3,10 +3,29 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageTitle from '@/components/PageTitle.astro';
 
-const papers = (await getCollection('publications')).sort(
-  (a, b) => b.data.year - a.data.year || a.data.order - b.data.order || a.data.title.localeCompare(b.data.title)
-);
-const years = [...new Set(papers.map((paper) => paper.data.year))];
+const papers = (await getCollection('publications')).sort(comparePublications);
+const years = [...new Set(papers.map((paper) => getYearLabel(paper.data.year)))];
+
+function getNumericYear(year: string | number | undefined) {
+  const value = String(year ?? '').trim();
+  return /^\d+$/.test(value) ? Number(value) : null;
+}
+
+function getYearLabel(year: string | number | undefined) {
+  const value = String(year ?? '').trim();
+  return value || 'Forthcoming';
+}
+
+function comparePublications(a: (typeof papers)[number], b: (typeof papers)[number]) {
+  const aYear = getNumericYear(a.data.year);
+  const bYear = getNumericYear(b.data.year);
+
+  if (aYear === null && bYear !== null) return -1;
+  if (aYear !== null && bYear === null) return 1;
+  if (aYear !== null && bYear !== null && aYear !== bYear) return bYear - aYear;
+
+  return a.data.order - b.data.order || a.data.title.localeCompare(b.data.title);
+}
 
 function normalizeAuthor(author: string | { name: string; labMember?: boolean; corresponding?: boolean }) {
   if (typeof author === 'string') {
@@ -77,7 +96,7 @@ function getCitation(paper: (typeof papers)[number]) {
             <div class="paper-list">
               {
                 papers
-                  .filter((paper) => paper.data.year === year)
+                  .filter((paper) => getYearLabel(paper.data.year) === year)
                   .map((paper) => {
                     const authors = paper.data.authors.map(normalizeAuthor);
                     return (

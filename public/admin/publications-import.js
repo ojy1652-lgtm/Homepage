@@ -39,12 +39,12 @@
 
   function publicationToMarkdown(row, index) {
     const title = row.Title || row.title;
-    const year = Number(row.Year || row.year);
+    const year = String(row.Year || row.year || '').trim();
     const journal = row.Journal || row.journal;
     const authors = parseAuthors(row.Authors || row.authors);
 
-    if (!title || !year || !journal) {
-      throw new Error(`Row ${index + 2}: Title, Journal, and Year are required.`);
+    if (!title || !journal) {
+      throw new Error(`Row ${index + 2}: Title and Journal are required.`);
     }
 
     const frontmatter = [
@@ -57,7 +57,7 @@
         '    corresponding: false',
       ]),
       `journal: ${yamlString(journal)}`,
-      `year: ${year}`,
+      `year: ${yamlString(year)}`,
       row.Volume ? `volume: ${yamlString(row.Volume)}` : null,
       row.Pages ? `pages: ${yamlString(row.Pages)}` : null,
       row.DOI ? `doi: ${yamlString(row.DOI)}` : null,
@@ -179,8 +179,8 @@
 
       for (const [index, row] of rows.entries()) {
         const title = row.Title || row.title;
-        const year = row.Year || row.year;
-        const slug = `${year}-${slugify(title) || `publication-${index + 1}`}`;
+        const year = String(row.Year || row.year || 'forthcoming').trim();
+        const slug = `${slugify(year) || 'forthcoming'}-${slugify(title) || `publication-${index + 1}`}`;
         const path = `src/content/publications/${slug}.md`;
         const markdown = publicationToMarkdown(row, index);
         await putFile(path, markdown, token);

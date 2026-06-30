@@ -12,7 +12,7 @@
       groupLabel: 'year',
       titleField: 'title',
       groupField: 'year',
-      sortGroups: (a, b) => Number(b) - Number(a),
+      sortGroups: compareYearGroups,
     },
     people: {
       folder: 'src/content/people',
@@ -22,6 +22,21 @@
       sortGroups: (a, b) => String(a).localeCompare(String(b)),
     },
   };
+
+  function getNumericYear(year) {
+    const value = String(year || '').trim();
+    return /^\d+$/.test(value) ? Number(value) : null;
+  }
+
+  function compareYearGroups(a, b) {
+    const aYear = getNumericYear(a);
+    const bYear = getNumericYear(b);
+
+    if (aYear === null && bYear !== null) return -1;
+    if (aYear !== null && bYear === null) return 1;
+    if (aYear !== null && bYear !== null) return bYear - aYear;
+    return String(a).localeCompare(String(b));
+  }
 
   function log(message) {
     logEl.textContent += `\n${message}`;
