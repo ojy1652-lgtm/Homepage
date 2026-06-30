@@ -1,14 +1,13 @@
 ---
-title: Thin Film Synthesis Line
+title: Thermo Scientific Helios™ 5
 section: tem-fib
-category: Processing
-image: /images/uploads/lab-hero.png
-location: Process Bay
+category: Focused Ion Beam
+image: /images/uploads/Helios5.webp
+location: 연구1동
 specs:
-  - Controlled atmosphere handling
-  - Thermal process monitoring
-  - Process log integration
+  - Highest-quality, site-specific, sample preparation for TEM using the new high throughput Tomahawk HT Ion Column
+  - Fastest and easiest, fully automated, unattended, multisite in situ and ex situ TEM sample preparation and cross sectioning using optional AutoTEM 5 Software
+  - Fast, accurate and precise milling and deposition of complex structures with critical dimensions of less than 10 nm
+  - The most complete sample information with sharp, refined and charge-free contrast obtained from up to six integrated in-column and below-the-lens detectors
 order: 2
 ---
-
-This line is used for reproducible thin film fabrication and low-energy process exploration.
