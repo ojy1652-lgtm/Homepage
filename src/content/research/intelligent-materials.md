@@ -6,7 +6,6 @@ summary: We investigate atomic-scale surface reconstruction and emergent
   electronic states, we reveal the mechanisms governing surface reconstruction,
   symmetry breaking, and two-dimensional electron gas (2DEG) formation at oxide
   interfaces.
-cover: /images/uploads/lab-hero.png
 order: 1
 ---
 ## Surface Reconstruction

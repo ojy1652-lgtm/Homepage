@@ -7,7 +7,6 @@ const research = defineCollection({
   schema: z.object({
     title: z.string(),
     summary: z.string(),
-    cover: imageField,
     order: z.number().default(10),
   }),
 });

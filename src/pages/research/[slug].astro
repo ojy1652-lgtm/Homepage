@@ -18,7 +18,6 @@ const { Content } = await item.render();
         <h1>{item.data.title}</h1>
         <p>{item.data.summary}</p>
       </header>
-      <img class="detail-image" src={item.data.cover} alt="" />
       <article class="prose">
         <Content />
       </article>
@@ -42,11 +41,4 @@ const { Content } = await item.render();
     margin-top: 12px;
   }
 
-  .detail-image {
-    aspect-ratio: 21 / 9;
-    border-radius: 8px;
-    margin-bottom: 34px;
-    object-fit: cover;
-    width: 100%;
-  }
 </style>

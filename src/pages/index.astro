@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getFirstMarkdownImage } from '@/utils/markdownImages';
 
 const research = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order).slice(0, 6);
 const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 4);
@@ -141,7 +142,7 @@ function getYearLabel(year: string | number | undefined) {
         {
           research.map((item, index) => (
             <a class="topic-card" href={`/research/#${item.slug}`}>
-              <img src={item.data.cover} alt="" />
+              <img src={getFirstMarkdownImage(item.body)} alt="" />
               <div>
                 <span>Research Topic {String(index + 1).padStart(2, '0')}</span>
                 <h3>{item.data.title}</h3>

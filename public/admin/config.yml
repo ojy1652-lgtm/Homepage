@@ -58,7 +58,6 @@ collections:
     fields:
       - { label: Title, name: title, widget: string }
       - { label: Summary, name: summary, widget: text }
-      - { label: Cover Image, name: cover, widget: image, required: false }
       - { label: Order, name: order, widget: number, value_type: int, default: 10 }
       - { label: Body, name: body, widget: markdown }
 

@@ -1,7 +1,6 @@
 ---
 title: Sustainable Process Engineering
 summary: Low-energy processing and measurement strategies for scalable, resilient laboratory workflows.
-cover: /images/uploads/lab-hero.png
 order: 3
 ---
 

@@ -1,7 +1,6 @@
 ---
 title: Energy Devices
 summary: Microscopy and spectroscopy of materials for energy conversion and storage devices.
-cover: /images/uploads/lab-hero.png
 order: 5
 ---
 

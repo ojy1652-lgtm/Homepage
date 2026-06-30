@@ -46,7 +46,7 @@ const instanceId = `tabs-${Math.random().toString(36).slice(2)}`;
         return (
           <article
             aria-labelledby={`${instanceId}-tab-${item.id}`}
-            class:list={['tab-panel', index === 0 ? 'active' : '']}
+            class:list={['tab-panel', !item.image ? 'no-image' : '', index === 0 ? 'active' : '']}
             data-tab-panel
             hidden={index !== 0}
             id={`${instanceId}-panel-${item.id}`}
@@ -208,6 +208,14 @@ const instanceId = `tabs-${Math.random().toString(36).slice(2)}`;
 
   .panel-copy {
     align-self: center;
+  }
+
+  .tab-panel.no-image {
+    grid-template-columns: 1fr;
+  }
+
+  .tab-panel.no-image .panel-copy {
+    align-self: start;
   }
 
   .panel-copy h2 {

@@ -1,7 +1,6 @@
 ---
 title: Surface & Interface
 summary: Atomic-scale imaging of emergent surface and interface structures in advanced materials.
-cover: /images/uploads/lab-hero.png
 order: 4
 ---
 

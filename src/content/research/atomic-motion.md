@@ -1,7 +1,6 @@
 ---
 title: Energy by Atomic Motion
 summary: Direct observation and analysis of atomic motion, dynamics, and local structural transitions.
-cover: /images/uploads/lab-hero.png
 order: 6
 ---
 
