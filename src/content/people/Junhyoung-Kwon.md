@@ -1,5 +1,6 @@
 ---
 order: 17
+order: 17
 name: Junhyoung Kwon
 role: Ph.D. Candidate
 category: researcher
