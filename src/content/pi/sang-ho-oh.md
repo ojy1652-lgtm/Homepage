@@ -7,7 +7,7 @@ institution: KENTECH
 location: Republic of Korea
 email: shoh@kentech.ac.kr
 scholarUrl: https://scholar.google.com/citations?user=kFNzAJ4AAAAJ&hl=en
-photo: /images/uploads/profile-placeholder.svg
+photo: /images/uploads/교수님.avif
 education:
   - Ph.D. Materials Science, Example University, Korea (2012)
   - B.S. Physics, Pusan National University (PNU), Korea (2006)

@@ -19,7 +19,6 @@ const { Content } = await post.render();
         <h1>{post.data.title}</h1>
         <p>{post.data.summary}</p>
       </header>
-      <img class="detail-image" src={post.data.cover} alt="" />
       <article class="prose">
         <Content />
       </article>
@@ -42,13 +41,5 @@ const { Content } = await post.render();
     color: var(--muted);
     font-size: 1.08rem;
     margin-top: 12px;
-  }
-
-  .detail-image {
-    aspect-ratio: 21 / 9;
-    border-radius: 8px;
-    margin-bottom: 34px;
-    object-fit: cover;
-    width: 100%;
   }
 </style>

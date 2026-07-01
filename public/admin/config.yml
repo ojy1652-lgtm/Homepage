@@ -161,6 +161,5 @@ collections:
       - { label: Title, name: title, widget: string }
       - { label: Date, name: date, widget: datetime, date_format: YYYY-MM-DD, time_format: false, format: YYYY-MM-DD }
       - { label: Summary, name: summary, widget: text }
-      - { label: Cover Image, name: cover, widget: image, required: false }
       - { label: Featured, name: featured, widget: boolean, default: false }
       - { label: Body, name: body, widget: markdown }

@@ -112,7 +112,6 @@ const news = defineCollection({
     title: z.string(),
     date: z.coerce.date(),
     summary: z.string(),
-    cover: imageField,
     featured: z.boolean().default(false),
   }),
 });

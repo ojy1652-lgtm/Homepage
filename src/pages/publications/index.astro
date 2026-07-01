@@ -2,30 +2,17 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageTitle from '@/components/PageTitle.astro';
+import {
+  comparePublications,
+  escapeHtml,
+  getCitationHtml,
+  getLatestPublicationYear,
+  getPublicationYearLabel,
+} from '@/utils/publications';
 
 const papers = (await getCollection('publications')).sort(comparePublications);
-const years = [...new Set(papers.map((paper) => getYearLabel(paper.data.year)))];
-
-function getNumericYear(year: string | number | undefined) {
-  const value = String(year ?? '').trim();
-  return /^\d+$/.test(value) ? Number(value) : null;
-}
-
-function getYearLabel(year: string | number | undefined) {
-  const value = String(year ?? '').trim();
-  return value || 'Forthcoming';
-}
-
-function comparePublications(a: (typeof papers)[number], b: (typeof papers)[number]) {
-  const aYear = getNumericYear(a.data.year);
-  const bYear = getNumericYear(b.data.year);
-
-  if (aYear === null && bYear !== null) return -1;
-  if (aYear !== null && bYear === null) return 1;
-  if (aYear !== null && bYear !== null && aYear !== bYear) return bYear - aYear;
-
-  return b.data.order - a.data.order || a.data.title.localeCompare(b.data.title);
-}
+const latestPublicationYear = getLatestPublicationYear(papers);
+const years = [...new Set(papers.map((paper) => getPublicationYearLabel(paper.data.year, latestPublicationYear)))];
 
 function normalizeAuthor(author: string | { name: string; labMember?: boolean; corresponding?: boolean }) {
   if (typeof author === 'string') {
@@ -37,15 +24,6 @@ function normalizeAuthor(author: string | { name: string; labMember?: boolean; c
     labMember: Boolean(author.labMember),
     corresponding: Boolean(author.corresponding),
   };
-}
-
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
 }
 
 function getAuthorsHtml(authors: ReturnType<typeof normalizeAuthor>[]) {
@@ -76,9 +54,6 @@ function getSearchText(paper: (typeof papers)[number]) {
     .toLowerCase();
 }
 
-function getCitation(paper: (typeof papers)[number]) {
-  return [paper.data.journal, paper.data.volume, paper.data.pages].filter(Boolean).join(', ');
-}
 ---
 
 <BaseLayout title="Publications" description="Publication list">
@@ -96,7 +71,7 @@ function getCitation(paper: (typeof papers)[number]) {
             <div class="paper-list">
               {
                 papers
-                  .filter((paper) => getYearLabel(paper.data.year) === year)
+                  .filter((paper) => getPublicationYearLabel(paper.data.year, latestPublicationYear) === year)
                   .map((paper) => {
                     const authors = paper.data.authors.map(normalizeAuthor);
                     return (
@@ -107,9 +82,7 @@ function getCitation(paper: (typeof papers)[number]) {
                       >
                         <h3>{paper.data.title}</h3>
                         <p class="authors" set:html={getAuthorsHtml(authors)} />
-                        <p class="meta">
-                          {getCitation(paper)}
-                        </p>
+                        <p class="meta" set:html={getCitationHtml(paper)}></p>
                         {paper.data.doi && (
                           <div class="paper-links">
                             <a href={`https://doi.org/${paper.data.doi}`} target="_blank" rel="noreferrer">DOI</a>

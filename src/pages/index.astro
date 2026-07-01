@@ -2,27 +2,19 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getFirstMarkdownImage } from '@/utils/markdownImages';
+import {
+  comparePublications,
+  escapeHtml,
+  getCitationHtml,
+  getLatestPublicationYear,
+  getPublicationYearLabel,
+} from '@/utils/publications';
 
 const research = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order).slice(0, 6);
 const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 4);
 const allPublications = (await getCollection('publications')).sort(comparePublications);
 const publications = allPublications.filter((paper) => paper.data.featured).slice(0, 3);
-
-function getNumericYear(year: string | number | undefined) {
-  const value = String(year ?? '').trim();
-  return /^\d+$/.test(value) ? Number(value) : null;
-}
-
-function comparePublications(a: (typeof allPublications)[number], b: (typeof allPublications)[number]) {
-  const aYear = getNumericYear(a.data.year);
-  const bYear = getNumericYear(b.data.year);
-
-  if (aYear === null && bYear !== null) return -1;
-  if (aYear !== null && bYear === null) return 1;
-  if (aYear !== null && bYear !== null && aYear !== bYear) return bYear - aYear;
-
-  return b.data.order - a.data.order || a.data.title.localeCompare(b.data.title);
-}
+const latestPublicationYear = getLatestPublicationYear(allPublications);
 
 function normalizeAuthor(author: string | { name: string; labMember?: boolean; corresponding?: boolean }) {
   if (typeof author === 'string') {
@@ -36,15 +28,6 @@ function normalizeAuthor(author: string | { name: string; labMember?: boolean; c
   };
 }
 
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
 function getAuthorsHtml(authors: ReturnType<typeof normalizeAuthor>[]) {
   return authors
     .map((author, index) => {
@@ -56,22 +39,14 @@ function getAuthorsHtml(authors: ReturnType<typeof normalizeAuthor>[]) {
     .join('');
 }
 
-function getCitation(paper: (typeof publications)[number]) {
-  return [paper.data.journal, paper.data.volume, paper.data.pages].filter(Boolean).join(', ');
-}
-
-function getYearLabel(year: string | number | undefined) {
-  const value = String(year ?? '').trim();
-  return value || 'Forthcoming';
-}
 ---
 
 <BaseLayout
-  title="Research Lab"
+  title="EM3 LAB"
   description="연구실 소개, 연구 분야, 논문, 구성원, 장비, 소식을 제공하는 홈페이지입니다."
 >
   <section class="hero">
-    <img src="/images/uploads/lab-hero.png" alt="" class="hero-image" />
+    <img src="/images/uploads/연구실 배경화면.jpg" alt="" class="hero-image" />
     <div class="hero-shade"></div>
     <div class="container hero-content">
       <h1>See the Unseen <span>with Electron Microscopy</span></h1>
@@ -95,7 +70,7 @@ function getYearLabel(year: string | number | undefined) {
         {
           news.map((item) => (
             <a class="news-card" href={`/news/${item.slug}/`}>
-              <img src={item.data.cover} alt="" />
+              <img src={getFirstMarkdownImage(item.body)} alt="" />
               <div class="card-body">
                 <p class="meta">{item.data.date.toLocaleDateString('ko-KR')}</p>
                 <h3>{item.data.title}</h3>
@@ -123,7 +98,7 @@ function getYearLabel(year: string | number | undefined) {
               <span>{String(index + 1).padStart(2, '0')}</span>
               <h3>{paper.data.title}</h3>
               <p class="authors" set:html={getAuthorsHtml(authors)} />
-              <p class="meta">{getCitation(paper)} · {getYearLabel(paper.data.year)}</p>
+              <p class="meta" set:html={`${getCitationHtml(paper)} · ${getPublicationYearLabel(paper.data.year, latestPublicationYear)}`}></p>
               {paper.data.doi && <a href={`https://doi.org/${paper.data.doi}`} target="_blank" rel="noreferrer">DOI</a>}
             </article>
             );

@@ -29,19 +29,40 @@ function parseLooseImage(value) {
 
 function remarkLooseImageLinks() {
   return (tree) => {
+    const childToImages = (child) => {
+      if (child.type === 'image') return [child];
+
+      if (child.type !== 'text') return null;
+
+      const lines = child.value
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter(Boolean);
+
+      if (lines.length === 0) return [];
+
+      const images = lines.map(parseLooseImage);
+      if (!images.every((image) => image?.url)) return null;
+
+      return images.map((image) => ({
+        type: 'image',
+        url: image.url,
+        alt: image.alt,
+        title: image.title,
+      }));
+    };
+
     const walk = (node) => {
       if (!node || !Array.isArray(node.children)) return;
 
-      node.children = node.children.map((child) => {
-        if (child.type === 'paragraph' && child.children?.length === 1 && child.children[0].type === 'text') {
-          const image = parseLooseImage(child.children[0].value);
-          if (image?.url) {
-            return {
-              type: 'image',
-              url: image.url,
-              alt: image.alt,
-              title: image.title,
-            };
+      node.children = node.children.flatMap((child) => {
+        if (child.type === 'paragraph' && Array.isArray(child.children)) {
+          const imageGroups = child.children.map(childToImages);
+          if (imageGroups.every((group) => group !== null)) {
+            const images = imageGroups.flat();
+            if (images.length > 0) {
+              return images;
+            }
           }
         }
 

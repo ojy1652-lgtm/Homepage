@@ -8,11 +8,11 @@ interface Props {
 }
 
 const {
-  title = 'Research Lab',
+  title = 'EM3 LAB',
   description = 'Academic research laboratory homepage',
 } = Astro.props;
 
-const pageTitle = title === 'Research Lab' ? title : `${title} | Research Lab`;
+const pageTitle = title === 'EM3 LAB' ? title : `${title} | EM3 LAB`;
 ---
 
 <!doctype html>
@@ -21,7 +21,7 @@ const pageTitle = title === 'Research Lab' ? title : `${title} | Research Lab`;
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/images/uploads/em3-logo.svg" />
     <title>{pageTitle}</title>
     <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script is:inline>
