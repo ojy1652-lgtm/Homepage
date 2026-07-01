@@ -6,4 +6,4 @@ featured: false
 ---
 
 ![](/images/uploads/260611_1.avif "260611_1")
-![](/images/uploads/Surface Reconstruction.avif "260611_2")
+![](/images/uploads/260611_2.avif "260611_2")
